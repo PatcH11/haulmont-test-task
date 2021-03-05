@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping(
-        path = "api/v1/clients",
+        path = "api/v1/client",
         produces = MediaType.APPLICATION_JSON_VALUE
 )
 public class ClientController {
