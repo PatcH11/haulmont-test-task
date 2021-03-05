@@ -1,11 +1,16 @@
 package com.haulmont.bank.data.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -35,19 +40,15 @@ public class Client {
     @Column(name = "passport_number")
     private Integer passportNumber;
 
-    public Client() {
-    }
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(
+            name = "banks",
+            joinColumns = {@JoinColumn(name = "client_id")},
+            inverseJoinColumns = {@JoinColumn(name = "credit_id")}
+    )
+    private Set<Credit> credits;
 
-    public Client(UUID id, String firstName, String lastName,
-                  String patronymic, String phoneNumber, String email,
-                  Integer passportNumber) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.patronymic = patronymic;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.passportNumber = passportNumber;
+    public Client() {
     }
 
     public UUID getId() {
@@ -106,17 +107,25 @@ public class Client {
         this.passportNumber = passportNumber;
     }
 
+    public Set<Credit> getCredits() {
+        return credits;
+    }
+
+    public void setCredits(Set<Credit> credits) {
+        this.credits = credits;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Client client = (Client) o;
-        return Objects.equals(id, client.id) && Objects.equals(firstName, client.firstName) && Objects.equals(lastName, client.lastName) && Objects.equals(patronymic, client.patronymic) && Objects.equals(phoneNumber, client.phoneNumber) && Objects.equals(email, client.email) && Objects.equals(passportNumber, client.passportNumber);
+        return Objects.equals(id, client.id) && Objects.equals(firstName, client.firstName) && Objects.equals(lastName, client.lastName) && Objects.equals(patronymic, client.patronymic) && Objects.equals(phoneNumber, client.phoneNumber) && Objects.equals(email, client.email) && Objects.equals(passportNumber, client.passportNumber) && Objects.equals(credits, client.credits);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, patronymic, phoneNumber, email, passportNumber);
+        return Objects.hash(id, firstName, lastName, patronymic, phoneNumber, email, passportNumber, credits);
     }
 
     @Override
@@ -129,6 +138,7 @@ public class Client {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", email='" + email + '\'' +
                 ", passportNumber=" + passportNumber +
+                ", credits=" + credits +
                 '}';
     }
 }
