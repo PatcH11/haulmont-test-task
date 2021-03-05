@@ -6,6 +6,7 @@ import com.haulmont.bank.data.model.Client;
 import com.haulmont.bank.data.repository.ClientRepository;
 import com.haulmont.bank.service.IClientService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -23,6 +24,7 @@ public class ClientServiceImpl implements IClientService {
     }
 
     @Override
+    @Transactional
     public ClientDto createClient(ClientDto clientDto) {
         final Client client = clientMapper.toEntity(clientDto);
         clientRepository.save(client);
@@ -31,6 +33,7 @@ public class ClientServiceImpl implements IClientService {
     }
 
     @Override
+    @Transactional
     public ClientDto updateClient(ClientDto clientDto) {
         final Client client = clientRepository.findById(clientDto.getId()).orElseThrow(NullPointerException::new);
         client.setFirstName(clientDto.getFirstName());
@@ -53,6 +56,7 @@ public class ClientServiceImpl implements IClientService {
     }
 
     @Override
+    @Transactional
     public void deleteClient(UUID id) {
         clientRepository.deleteById(id);
     }
