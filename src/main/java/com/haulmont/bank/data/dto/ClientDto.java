@@ -1,6 +1,9 @@
 package com.haulmont.bank.data.dto;
 
+import com.haulmont.bank.data.model.Credit;
+
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 public class ClientDto {
@@ -12,20 +15,9 @@ public class ClientDto {
     private String phoneNumber;
     private String email;
     private Integer passportNumber;
+    private Set<Credit> credits;
 
     public ClientDto() {
-    }
-
-    public ClientDto(UUID id, String firstName, String lastName,
-                     String patronymic, String phoneNumber, String email,
-                     Integer passportNumber) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.patronymic = patronymic;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.passportNumber = passportNumber;
     }
 
     public UUID getId() {
@@ -84,17 +76,25 @@ public class ClientDto {
         this.passportNumber = passportNumber;
     }
 
+    public Set<Credit> getCredits() {
+        return credits;
+    }
+
+    public void setCredits(Set<Credit> credits) {
+        this.credits = credits;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ClientDto clientDto = (ClientDto) o;
-        return Objects.equals(id, clientDto.id) && Objects.equals(firstName, clientDto.firstName) && Objects.equals(lastName, clientDto.lastName) && Objects.equals(patronymic, clientDto.patronymic) && Objects.equals(phoneNumber, clientDto.phoneNumber) && Objects.equals(email, clientDto.email) && Objects.equals(passportNumber, clientDto.passportNumber);
+        return Objects.equals(id, clientDto.id) && Objects.equals(firstName, clientDto.firstName) && Objects.equals(lastName, clientDto.lastName) && Objects.equals(patronymic, clientDto.patronymic) && Objects.equals(phoneNumber, clientDto.phoneNumber) && Objects.equals(email, clientDto.email) && Objects.equals(passportNumber, clientDto.passportNumber) && Objects.equals(credits, clientDto.credits);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, patronymic, phoneNumber, email, passportNumber);
+        return Objects.hash(id, firstName, lastName, patronymic, phoneNumber, email, passportNumber, credits);
     }
 
     @Override
@@ -107,6 +107,7 @@ public class ClientDto {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", email='" + email + '\'' +
                 ", passportNumber=" + passportNumber +
+                ", credits=" + credits +
                 '}';
     }
 }
