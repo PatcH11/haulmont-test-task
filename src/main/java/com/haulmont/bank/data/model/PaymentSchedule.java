@@ -1,5 +1,7 @@
 package com.haulmont.bank.data.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,7 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import java.sql.Timestamp;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -16,7 +20,8 @@ import java.util.UUID;
 public class PaymentSchedule {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(name = "payment_schedule_id")
     private UUID id;
 
@@ -24,8 +29,13 @@ public class PaymentSchedule {
     @JoinColumn(name = "credit_offer_id")
     private CreditOffer creditOffer;
 
-    @Column(name = "date")
-    private Timestamp date;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(
+            name = "date",
+            nullable = false,
+            columnDefinition = "TIMESTAMP default CURRENT_TIMESTAMP"
+    )
+    private Date date = new Date();
 
     @Column(name = "amount_payment")
     private Double amountPayment;
@@ -35,6 +45,9 @@ public class PaymentSchedule {
 
     @Column(name = "repayment_amount_percentages")
     private Double repaymentAmountPercentages;
+
+    @Column(name = "indebtedness")
+    private Double indebtedness;
 
     public PaymentSchedule() {
     }
@@ -55,11 +68,11 @@ public class PaymentSchedule {
         this.creditOffer = creditOffer;
     }
 
-    public Timestamp getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(Timestamp date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -87,17 +100,25 @@ public class PaymentSchedule {
         this.repaymentAmountPercentages = repaymentAmountPercentages;
     }
 
+    public Double getIndebtedness() {
+        return indebtedness;
+    }
+
+    public void setIndebtedness(Double indebtedness) {
+        this.indebtedness = indebtedness;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PaymentSchedule that = (PaymentSchedule) o;
-        return Objects.equals(id, that.id) && Objects.equals(creditOffer, that.creditOffer) && Objects.equals(date, that.date) && Objects.equals(amountPayment, that.amountPayment) && Objects.equals(repaymentAmountLoanBody, that.repaymentAmountLoanBody) && Objects.equals(repaymentAmountPercentages, that.repaymentAmountPercentages);
+        return Objects.equals(id, that.id) && Objects.equals(creditOffer, that.creditOffer) && Objects.equals(date, that.date) && Objects.equals(amountPayment, that.amountPayment) && Objects.equals(repaymentAmountLoanBody, that.repaymentAmountLoanBody) && Objects.equals(repaymentAmountPercentages, that.repaymentAmountPercentages) && Objects.equals(indebtedness, that.indebtedness);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, creditOffer, date, amountPayment, repaymentAmountLoanBody, repaymentAmountPercentages);
+        return Objects.hash(id, creditOffer, date, amountPayment, repaymentAmountLoanBody, repaymentAmountPercentages, indebtedness);
     }
 
     @Override
@@ -109,6 +130,7 @@ public class PaymentSchedule {
                 ", amountPayment=" + amountPayment +
                 ", repaymentAmountLoanBody=" + repaymentAmountLoanBody +
                 ", repaymentAmountPercentages=" + repaymentAmountPercentages +
+                ", indebtedness=" + indebtedness +
                 '}';
     }
 }

@@ -1,5 +1,7 @@
 package com.haulmont.bank.data.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,8 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -18,7 +21,8 @@ import java.util.UUID;
 public class Client {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(name = "client_id")
     private UUID id;
 
@@ -42,11 +46,11 @@ public class Client {
 
     @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
-            name = "banks",
-            joinColumns = {@JoinColumn(name = "client_id")},
-            inverseJoinColumns = {@JoinColumn(name = "credit_id")}
+            name = "bank",
+            joinColumns = @JoinColumn(name = "client_id"),
+            inverseJoinColumns = @JoinColumn(name = "credit_id")
     )
-    private Set<Credit> credits;
+    private List<Credit> credits = new ArrayList<>();
 
     public Client() {
     }
@@ -107,11 +111,11 @@ public class Client {
         this.passportNumber = passportNumber;
     }
 
-    public Set<Credit> getCredits() {
+    public List<Credit> getCredits() {
         return credits;
     }
 
-    public void setCredits(Set<Credit> credits) {
+    public void setCredits(List<Credit> credits) {
         this.credits = credits;
     }
 

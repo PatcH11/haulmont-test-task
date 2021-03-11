@@ -1,12 +1,16 @@
 package com.haulmont.bank.data.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -15,7 +19,8 @@ import java.util.UUID;
 public class CreditOffer {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(name = "credit_offer_id")
     private UUID id;
 
@@ -26,6 +31,9 @@ public class CreditOffer {
     @ManyToOne
     @JoinColumn(name = "credit_id")
     private Credit credit;
+
+    @OneToMany(mappedBy = "creditOffer")
+    private List<PaymentSchedule> paymentSchedules;
 
     @Column(name = "credit_amount")
     private Double creditAmount;
@@ -57,6 +65,14 @@ public class CreditOffer {
         this.credit = credit;
     }
 
+    public List<PaymentSchedule> getPaymentSchedules() {
+        return paymentSchedules;
+    }
+
+    public void setPaymentSchedules(List<PaymentSchedule> paymentSchedules) {
+        this.paymentSchedules = paymentSchedules;
+    }
+
     public Double getCreditAmount() {
         return creditAmount;
     }
@@ -70,12 +86,12 @@ public class CreditOffer {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CreditOffer that = (CreditOffer) o;
-        return Objects.equals(id, that.id) && Objects.equals(client, that.client) && Objects.equals(credit, that.credit) && Objects.equals(creditAmount, that.creditAmount);
+        return Objects.equals(id, that.id) && Objects.equals(client, that.client) && Objects.equals(credit, that.credit) && Objects.equals(paymentSchedules, that.paymentSchedules) && Objects.equals(creditAmount, that.creditAmount);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, client, credit, creditAmount);
+        return Objects.hash(id, client, credit, paymentSchedules, creditAmount);
     }
 
     @Override
@@ -84,6 +100,7 @@ public class CreditOffer {
                 "id=" + id +
                 ", client=" + client +
                 ", credit=" + credit +
+                ", paymentSchedules=" + paymentSchedules +
                 ", creditAmount=" + creditAmount +
                 '}';
     }
