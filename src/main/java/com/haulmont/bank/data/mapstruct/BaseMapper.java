@@ -2,13 +2,11 @@ package com.haulmont.bank.data.mapstruct;
 
 import java.util.List;
 
-public abstract class BaseMapper<E, D> {
+public abstract class BaseMapper<E, GU, C> {
 
-    public abstract E toEntity(D dto);
+    public abstract GU toGetAndUpdateDto(E entity);
 
-    public abstract List<E> toEntity(Iterable<D> dtos);
+    public abstract E fromCreateDto(C createDto);
 
-    public abstract D toDto(E entity);
-
-    public abstract List<D> toDto(Iterable<E> entities);
+    public abstract List<GU> toGetDto(Iterable<E> entities);
 }

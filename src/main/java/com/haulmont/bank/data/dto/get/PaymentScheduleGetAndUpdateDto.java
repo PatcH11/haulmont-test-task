@@ -1,19 +1,20 @@
-package com.haulmont.bank.data.dto;
+package com.haulmont.bank.data.dto.get;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
-public class PaymentScheduleDto {
+public class PaymentScheduleGetAndUpdateDto {
 
     private UUID id;
-    private CreditOfferDto creditOffer;
-    private Timestamp data;
+    private CreditOfferGetAndUpdateDto creditOffer;
+    private Date date;
     private Double amountPayment;
     private Double repaymentAmountLoanBody;
     private Double repaymentAmountPercentages;
+    private Double indebtedness;
 
-    public PaymentScheduleDto() {
+    public PaymentScheduleGetAndUpdateDto() {
     }
 
     public UUID getId() {
@@ -24,20 +25,20 @@ public class PaymentScheduleDto {
         this.id = id;
     }
 
-    public CreditOfferDto getCreditOffer() {
+    public CreditOfferGetAndUpdateDto getCreditOffer() {
         return creditOffer;
     }
 
-    public void setCreditOffer(CreditOfferDto creditOffer) {
+    public void setCreditOffer(CreditOfferGetAndUpdateDto creditOffer) {
         this.creditOffer = creditOffer;
     }
 
-    public Timestamp getData() {
-        return data;
+    public Date getDate() {
+        return date;
     }
 
-    public void setData(Timestamp data) {
-        this.data = data;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public Double getAmountPayment() {
@@ -64,28 +65,37 @@ public class PaymentScheduleDto {
         this.repaymentAmountPercentages = repaymentAmountPercentages;
     }
 
+    public Double getIndebtedness() {
+        return indebtedness;
+    }
+
+    public void setIndebtedness(Double indebtedness) {
+        this.indebtedness = indebtedness;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PaymentScheduleDto that = (PaymentScheduleDto) o;
-        return Objects.equals(id, that.id) && Objects.equals(creditOffer, that.creditOffer) && Objects.equals(data, that.data) && Objects.equals(amountPayment, that.amountPayment) && Objects.equals(repaymentAmountLoanBody, that.repaymentAmountLoanBody) && Objects.equals(repaymentAmountPercentages, that.repaymentAmountPercentages);
+        PaymentScheduleGetAndUpdateDto that = (PaymentScheduleGetAndUpdateDto) o;
+        return Objects.equals(id, that.id) && Objects.equals(creditOffer, that.creditOffer) && Objects.equals(date, that.date) && Objects.equals(amountPayment, that.amountPayment) && Objects.equals(repaymentAmountLoanBody, that.repaymentAmountLoanBody) && Objects.equals(repaymentAmountPercentages, that.repaymentAmountPercentages) && Objects.equals(indebtedness, that.indebtedness);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, creditOffer, data, amountPayment, repaymentAmountLoanBody, repaymentAmountPercentages);
+        return Objects.hash(id, creditOffer, date, amountPayment, repaymentAmountLoanBody, repaymentAmountPercentages, indebtedness);
     }
 
     @Override
     public String toString() {
-        return "PaymentScheduleDto{" +
+        return "PaymentScheduleGetAndUpdateDto{" +
                 "id=" + id +
                 ", creditOffer=" + creditOffer +
-                ", data=" + data +
+                ", date=" + date +
                 ", amountPayment=" + amountPayment +
                 ", repaymentAmountLoanBody=" + repaymentAmountLoanBody +
                 ", repaymentAmountPercentages=" + repaymentAmountPercentages +
+                ", indebtedness=" + indebtedness +
                 '}';
     }
 }

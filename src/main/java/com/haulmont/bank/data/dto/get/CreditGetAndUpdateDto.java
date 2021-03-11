@@ -1,20 +1,14 @@
-package com.haulmont.bank.data.dto;
-
-import com.haulmont.bank.data.model.Client;
+package com.haulmont.bank.data.dto.get;
 
 import java.util.Objects;
-import java.util.Set;
 import java.util.UUID;
 
-public class CreditDto {
+public class CreditGetAndUpdateDto {
 
     private UUID id;
+    private String name;
     private Long loanLimit;
     private Double interestRate;
-    private Set<Client> clients;
-
-    public CreditDto() {
-    }
 
     public UUID getId() {
         return id;
@@ -22,6 +16,14 @@ public class CreditDto {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Long getLoanLimit() {
@@ -40,34 +42,26 @@ public class CreditDto {
         this.interestRate = interestRate;
     }
 
-    public Set<Client> getClients() {
-        return clients;
-    }
-
-    public void setClients(Set<Client> clients) {
-        this.clients = clients;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CreditDto creditDto = (CreditDto) o;
-        return Objects.equals(id, creditDto.id) && Objects.equals(loanLimit, creditDto.loanLimit) && Objects.equals(interestRate, creditDto.interestRate) && Objects.equals(clients, creditDto.clients);
+        CreditGetAndUpdateDto that = (CreditGetAndUpdateDto) o;
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(loanLimit, that.loanLimit) && Objects.equals(interestRate, that.interestRate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, loanLimit, interestRate, clients);
+        return Objects.hash(id, name, loanLimit, interestRate);
     }
 
     @Override
     public String toString() {
-        return "CreditDto{" +
+        return "CreditGetAndUpdateDto{" +
                 "id=" + id +
+                ", name='" + name + '\'' +
                 ", loanLimit=" + loanLimit +
                 ", interestRate=" + interestRate +
-                ", clients=" + clients +
                 '}';
     }
 }
