@@ -1,0 +1,72 @@
+<form [formGroup]="clientForm">
+  <div class="text-center">
+    <p>
+      <mat-form-field appearance="legacy">
+        <mat-label>Фамилия</mat-label>
+        <label>
+          <input formControlName="lastName" matInput placeholder="Введите фамилию">
+        </label>
+        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+        <mat-error *ngIf="clientForm.get('lastName').invalid">{{getErrorLastNameMessage()}}</mat-error>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field appearance="legacy">
+        <mat-label>Имя</mat-label>
+        <label>
+          <input formControlName="firstName" matInput placeholder="Введите имя">
+        </label>
+        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+        <mat-error *ngIf="clientForm.get('firstName').invalid">{{getErrorFirstNameMessage()}}</mat-error>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field appearance="legacy">
+        <mat-label>Отчество</mat-label>
+        <label>
+          <input formControlName="patronymic" matInput placeholder="Введите отчество">
+        </label>
+        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+        <mat-error *ngIf="clientForm.get('patronymic').invalid">{{getErrorPatronymicMessage()}}</mat-error>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field appearance="legacy">
+        <mat-label>Номер телефона</mat-label>
+        <label>
+          <input #input formControlName="phoneNumber" matInput maxlength="11" minlength="11"
+                 placeholder="Введите номер">
+        </label>
+        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+        <mat-error *ngIf="clientForm.get('phoneNumber').invalid">{{getErrorPatronymicMessage()}}</mat-error>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field appearance="legacy">
+        <mat-label>Email</mat-label>
+        <label>
+          <input formControlName="email" matInput placeholder="pat@example.com">
+        </label>
+        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+        <mat-error *ngIf="clientForm.get('email').invalid">{{getErrorEmailMessage()}}</mat-error>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field appearance="legacy">
+        <mat-label>Номер паспорта</mat-label>
+        <label>
+          <input #input formControlName="passportNumber" matInput maxlength="6" minlength="6">
+        </label>
+        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+        <mat-hint align="end">{{input.value?.length || 0}}/6</mat-hint>
+        <mat-error *ngIf="clientForm.get('passportNumber').invalid">{{getErrorPassportNumberMessage()}}</mat-error>
+      </mat-form-field>
+    </p>
+    <br>
+    <p>
+      <button (click)="createClient(clientForm)" [disabled]="!clientForm.valid" color="primary" mat-raised-button>
+        Добавить
+      </button>
+    </p>
+  </div>
+</form>

@@ -1,0 +1,52 @@
+<br>
+<div class="container">
+
+  <button (click)="openDialog('Add',{})" color="primary" mat-button mat-flat-button style="margin-left: 88%">Добавить
+    клиента
+  </button>
+
+  <table #mytable [dataSource]="dataSource" class="my-table mat-elevation-z8" mat-table style="width: 100%">
+
+    <ng-container matColumnDef="firstName">
+      <th *matHeaderCellDef mat-header-cell> Имя</th>
+      <td *matCellDef="let element" mat-cell> {{element.firstName}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="lastName">
+      <th *matHeaderCellDef mat-header-cell> Фамилия</th>
+      <td *matCellDef="let element" mat-cell> {{element.lastName}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="patronymic">
+      <th *matHeaderCellDef mat-header-cell> Отчество</th>
+      <td *matCellDef="let element" mat-cell> {{element.patronymic}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="phoneNumber">
+      <th *matHeaderCellDef mat-header-cell> Номер телефона</th>
+      <td *matCellDef="let element" mat-cell> {{element.phoneNumber}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <th *matHeaderCellDef mat-header-cell> Email</th>
+      <td *matCellDef="let element" mat-cell> {{element.email}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="passportNumber">
+      <th *matHeaderCellDef mat-header-cell> Номер паспорта</th>
+      <td *matCellDef="let element" mat-cell> {{element.passportNumber}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <th *matHeaderCellDef mat-header-cell> Действия</th>
+      <td *matCellDef="let element" class="action-link" mat-cell>
+        <a (click)="openDialog('Update',element)">Изменить</a> |
+        <a (click)="openDialog('Delete',element)">Удалить</a>
+      </td>
+    </ng-container>
+
+    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+    <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+  </table>
+
+</div>

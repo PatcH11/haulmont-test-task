@@ -1,0 +1,38 @@
+<br>
+<div class="container">
+
+  <button (click)="openDialog('Add',{})" color="primary" mat-button mat-flat-button style="margin-left: 88%">Добавить
+    кредитное предложение
+  </button>
+
+  <table #mytable [dataSource]="dataSource" class="my-table mat-elevation-z8" mat-table style="width: 100%">
+
+    <ng-container matColumnDef="client">
+      <th *matHeaderCellDef mat-header-cell> Клиент</th>
+      <td *matCellDef="let element"
+          mat-cell> {{element.client.lastName + ' ' + element.client.firstName + ' ' + element.client.patronymic}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="credit">
+      <th *matHeaderCellDef mat-header-cell> Кредит</th>
+      <td *matCellDef="let element" mat-cell> {{element.credit.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="interestRate">
+      <th *matHeaderCellDef mat-header-cell> Сумма кредита</th>
+      <td *matCellDef="let element" mat-cell> {{element.creditAmount}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <th *matHeaderCellDef mat-header-cell> Действия</th>
+      <td *matCellDef="let element" class="action-link" mat-cell>
+        <a (click)="openDialog('Update',element)">Изменить</a> |
+        <a (click)="openDialog('Delete',element)">Удалить</a>
+      </td>
+    </ng-container>
+
+    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+    <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+  </table>
+
+</div>

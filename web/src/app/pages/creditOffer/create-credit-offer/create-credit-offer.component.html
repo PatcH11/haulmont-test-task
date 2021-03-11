@@ -1,0 +1,35 @@
+<form [formGroup]="creditOfferForm">
+  <mat-form-field appearance="fill" style="width: 25%">
+    <mat-label>Клиенты</mat-label>
+    <mat-select formControlName="client">
+      <mat-option></mat-option>
+      <mat-option *ngFor="let option of clients"
+                  [value]="option">{{ option.lastName + ' ' + option.firstName + ' ' + option.patronymic }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="fill" style="width: 25%">
+    <mat-label>Кредиты</mat-label>
+    <mat-select formControlName="credit">
+      <mat-option></mat-option>
+      <mat-option *ngFor="let option of credits"
+                  [value]="option">{{ option.name }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <p>
+    <mat-form-field appearance="legacy">
+      <mat-label>Сумма кредита</mat-label>
+      <label>
+        <input formControlName="creditAmount" matInput placeholder="Введите сумму кредита">
+      </label>
+      <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+      <mat-error *ngIf="creditOfferForm.get('creditAmount').invalid">creditAmount</mat-error>
+    </mat-form-field>
+  </p>
+  <p>
+    <button (click)="createCreditOffer()" [disabled]="!creditOfferForm.valid" color="primary" mat-raised-button>
+      Добавить
+    </button>
+  </p>
+</form>

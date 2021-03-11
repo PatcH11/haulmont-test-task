@@ -1,0 +1,41 @@
+<h1 mat-dialog-title>Row Action :: <strong>{{action}}</strong></h1>
+<div [formGroup]="creditOfferForm" mat-dialog-content>
+  <div *ngIf="action != 'Delete'; else elseTemplate">
+    <mat-form-field appearance="fill" style="width: 25%">
+      <mat-label>Клиенты</mat-label>
+      <mat-select [(ngModel)]="local_data.client" formControlName="client">
+        <mat-option></mat-option>
+        <mat-option *ngFor="let option of clients"
+                    [value]="option">{{ option.lastName + ' ' + option.firstName + ' ' + option.patronymic }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="fill" style="width: 25%">
+      <mat-label>Кредиты</mat-label>
+      <mat-select [(ngModel)]="local_data.credit" formControlName="credit">
+        <mat-option></mat-option>
+        <mat-option *ngFor="let option of credits"
+                    [value]="option">{{ option.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <p>
+      <mat-form-field appearance="legacy">
+        <mat-label>Сумма кредита</mat-label>
+        <label>
+          <input [(ngModel)]="local_data.creditAmount" formControlName="creditAmount" matInput
+                 placeholder="Введите сумму кредита">
+        </label>
+        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+        <mat-error *ngIf="creditOfferForm.get('creditAmount').invalid">creditAmount</mat-error>
+      </mat-form-field>
+    </p>
+  </div>
+  <ng-template #elseTemplate>
+    Sure to delete <b>{{local_data.name}}</b>?
+  </ng-template>
+</div>
+<div mat-dialog-actions>
+  <button (click)="doAction()" mat-button>{{action}}</button>
+  <button (click)="closeDialog()" color="warn" mat-button mat-flat-button>Cancel</button>
+</div>

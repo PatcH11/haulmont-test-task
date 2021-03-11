@@ -1,0 +1,44 @@
+<form (ngSubmit)="register()">
+
+  <div class="row mb-3">
+    <label class="form-label">Фамилия</label>
+    <div class="col-sm-2">
+      <input [(ngModel)]="model.lastName" aria-label="default input example" class="form-control" name="lastName"
+             placeholder="Фамилия"
+             type="text">
+    </div>
+  </div>
+  <div>
+    <label class="form-label">Имя</label>
+    <input [(ngModel)]="model.firstName" aria-label="default input example" class="form-control" name="firstName"
+           placeholder="Default input"
+           type="text">
+  </div>
+  <div>
+    <label class="form-label">Отчество</label>
+    <input [(ngModel)]="model.patronymic" aria-label="default input example" class="form-control" name="patronymic"
+           placeholder="Default input"
+           type="text">
+  </div>
+  <div>
+    <label class="form-label">Телефон</label>
+    <input [(ngModel)]="model.phoneNumber" aria-label="default input example" class="form-control" name="phoneNumber"
+           placeholder="Default input"
+           type="text">
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="exampleFormControlInput1">Email address</label>
+    <input [(ngModel)]="model.email" class="form-control" id="exampleFormControlInput1" name="email"
+           placeholder="name@example.com"
+           type="email">
+  </div>
+  <div>
+    <label class="form-label">Номер паспорта</label>
+    <input [(ngModel)]="model.passportNumber" aria-label="default input example" class="form-control"
+           name="passportNumber"
+           placeholder="Default input"
+           type="text">
+  </div>
+
+  <button class="btn btn-primary" type="submit">Submit</button>
+</form>
