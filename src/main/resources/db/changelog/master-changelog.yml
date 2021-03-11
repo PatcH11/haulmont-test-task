@@ -1,3 +1,6 @@
 databaseChangeLog:
+  - preConditions:
+      - dbms:
+          type: hsqldb
   - includeAll:
       path: db/changelog/changes
