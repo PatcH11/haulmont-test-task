@@ -1,6 +1,7 @@
 package com.haulmont.bank.service.impl;
 
-import com.haulmont.bank.data.dto.CreditDto;
+import com.haulmont.bank.data.dto.create.CreditCreateDto;
+import com.haulmont.bank.data.dto.get.CreditGetAndUpdateDto;
 import com.haulmont.bank.data.mapstruct.CreditMapper;
 import com.haulmont.bank.data.model.Credit;
 import com.haulmont.bank.data.repository.CreditRepository;
@@ -25,30 +26,31 @@ public class CreditServiceImpl implements ICreditService {
 
     @Override
     @Transactional
-    public CreditDto createCredit(CreditDto creditDto) {
-        final Credit credit = creditMapper.toEntity(creditDto);
+    public CreditGetAndUpdateDto createCredit(CreditCreateDto creditCreateDto) {
+        final Credit credit = creditMapper.fromCreateDto(creditCreateDto);
         creditRepository.save(credit);
 
-        return creditMapper.toDto(credit);
+        return creditMapper.toGetAndUpdateDto(credit);
     }
 
     @Override
     @Transactional
-    public CreditDto updateCredit(CreditDto creditDto) {
-        final Credit credit = creditRepository.findById(creditDto.getId()).orElseThrow(NullPointerException::new);
-        credit.setLoanLimit(creditDto.getLoanLimit());
-        credit.setInterestRate(creditDto.getInterestRate());
+    public CreditGetAndUpdateDto updateCredit(CreditGetAndUpdateDto creditGetAndUpdateDto) {
+        final Credit credit = creditRepository.findById(creditGetAndUpdateDto.getId()).orElseThrow(NullPointerException::new);
+        credit.setName(creditGetAndUpdateDto.getName());
+        credit.setLoanLimit(creditGetAndUpdateDto.getLoanLimit());
+        credit.setInterestRate(creditGetAndUpdateDto.getInterestRate());
 
         final Credit updatedCredit = creditRepository.saveAndFlush(credit);
 
-        return creditMapper.toDto(updatedCredit);
+        return creditMapper.toGetAndUpdateDto(updatedCredit);
     }
 
     @Override
-    public CreditDto getCredit(UUID id) {
+    public CreditGetAndUpdateDto getCredit(UUID id) {
         final Credit credit = creditRepository.findById(id).orElseThrow(NullPointerException::new);
 
-        return creditMapper.toDto(credit);
+        return creditMapper.toGetAndUpdateDto(credit);
     }
 
     @Override
@@ -58,7 +60,7 @@ public class CreditServiceImpl implements ICreditService {
     }
 
     @Override
-    public List<CreditDto> getAllCredits() {
-        return creditMapper.toDto(creditRepository.findAll());
+    public List<CreditGetAndUpdateDto> getAllCredits() {
+        return creditMapper.toGetDto(creditRepository.findAll());
     }
 }

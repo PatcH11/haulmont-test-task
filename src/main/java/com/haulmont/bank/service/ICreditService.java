@@ -1,19 +1,20 @@
 package com.haulmont.bank.service;
 
-import com.haulmont.bank.data.dto.CreditDto;
+import com.haulmont.bank.data.dto.create.CreditCreateDto;
+import com.haulmont.bank.data.dto.get.CreditGetAndUpdateDto;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface ICreditService {
 
-    CreditDto createCredit(CreditDto creditDto);
+    CreditGetAndUpdateDto createCredit(CreditCreateDto creditCreateDto);
 
-    CreditDto updateCredit(CreditDto creditDto);
+    CreditGetAndUpdateDto updateCredit(CreditGetAndUpdateDto creditDto);
 
-    CreditDto getCredit(UUID id);
+    CreditGetAndUpdateDto getCredit(UUID id);
 
     void deleteCredit(UUID id);
 
-    List<CreditDto> getAllCredits();
+    List<CreditGetAndUpdateDto> getAllCredits();
 }

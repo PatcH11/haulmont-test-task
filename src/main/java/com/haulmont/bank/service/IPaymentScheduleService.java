@@ -1,17 +1,20 @@
 package com.haulmont.bank.service;
 
-import com.haulmont.bank.data.dto.PaymentScheduleDto;
+import com.haulmont.bank.data.dto.create.PaymentScheduleCreateDto;
+import com.haulmont.bank.data.dto.get.PaymentScheduleGetAndUpdateDto;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface IPaymentScheduleService {
 
-    PaymentScheduleDto createPaymentSchedule(PaymentScheduleDto paymentScheduleDto);
+    PaymentScheduleGetAndUpdateDto createPaymentSchedule(PaymentScheduleCreateDto paymentScheduleCreateDto);
 
-    PaymentScheduleDto updatePaymentSchedule(PaymentScheduleDto paymentScheduleDto);
+    PaymentScheduleGetAndUpdateDto updatePaymentSchedule(PaymentScheduleGetAndUpdateDto paymentScheduleGetAndUpdateDto);
 
-    PaymentScheduleDto getPaymentSchedule(UUID id);
+    PaymentScheduleGetAndUpdateDto getPaymentSchedule(UUID id);
 
-    List<PaymentScheduleDto> getAllPaymentSchedules();
+    void deletePaymentSchedule(UUID id);
+
+    List<PaymentScheduleGetAndUpdateDto> getAllPaymentSchedules();
 }
