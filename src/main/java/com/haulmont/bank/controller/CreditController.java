@@ -55,4 +55,9 @@ public class CreditController {
     public List<CreditGetAndUpdateDto> getAllCredits() {
         return creditService.getAllCredits();
     }
+
+    @GetMapping("/all/{clientId}")
+    public List<CreditGetAndUpdateDto> getAllCreditWhereClientIs(@PathVariable UUID clientId) {
+        return creditService.getAllCreditsWhereClientIs(clientId);
+    }
 }

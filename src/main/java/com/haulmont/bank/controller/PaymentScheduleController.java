@@ -43,4 +43,10 @@ public class PaymentScheduleController {
     public List<PaymentScheduleGetAndUpdateDto> getAllPaymentSchedules() {
         return paymentScheduleService.getAllPaymentSchedules();
     }
+
+    @GetMapping("all/{clientId}/{creditId}")
+    public List<PaymentScheduleGetAndUpdateDto> getAllPaymentSchedulesWhereClientAndCreditIs(@PathVariable UUID clientId,
+                                                                                             @PathVariable UUID creditId) {
+        return paymentScheduleService.getAllPaymentSchedulesWhereClientAndCreditIs(clientId, creditId);
+    }
 }

@@ -1,6 +1,7 @@
 package com.haulmont.bank.controller;
 
 import com.haulmont.bank.data.dto.create.CreditOfferCreateDto;
+import com.haulmont.bank.data.dto.get.ClientGetAndUpdateDto;
 import com.haulmont.bank.data.dto.get.CreditOfferGetAndUpdateDto;
 import com.haulmont.bank.service.ICreditOfferService;
 import org.springframework.http.MediaType;
@@ -42,5 +43,10 @@ public class CreditOfferController {
     @GetMapping
     public List<CreditOfferGetAndUpdateDto> getAllCreditOffers() {
         return creditOfferService.getAllCreditOffers();
+    }
+
+    @GetMapping("/all/{clientId}")
+    public List<CreditOfferGetAndUpdateDto> getAllCreditOffersWhereClientIs(@PathVariable UUID clientId) {
+        return creditOfferService.getAllCreditOffersWhereClientIs(clientId);
     }
 }
