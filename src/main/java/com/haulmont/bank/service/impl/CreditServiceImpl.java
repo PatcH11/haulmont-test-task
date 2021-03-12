@@ -3,7 +3,9 @@ package com.haulmont.bank.service.impl;
 import com.haulmont.bank.data.dto.create.CreditCreateDto;
 import com.haulmont.bank.data.dto.get.CreditGetAndUpdateDto;
 import com.haulmont.bank.data.mapstruct.CreditMapper;
+import com.haulmont.bank.data.model.Client;
 import com.haulmont.bank.data.model.Credit;
+import com.haulmont.bank.data.repository.ClientRepository;
 import com.haulmont.bank.data.repository.CreditRepository;
 import com.haulmont.bank.service.ICreditService;
 import org.springframework.stereotype.Service;
@@ -16,11 +18,14 @@ import java.util.UUID;
 public class CreditServiceImpl implements ICreditService {
 
     private final CreditRepository creditRepository;
+    private final ClientRepository clientRepository;
     private final CreditMapper creditMapper;
 
     public CreditServiceImpl(CreditRepository creditRepository,
+                             ClientRepository clientRepository,
                              CreditMapper creditMapper) {
         this.creditRepository = creditRepository;
+        this.clientRepository = clientRepository;
         this.creditMapper = creditMapper;
     }
 
@@ -62,5 +67,12 @@ public class CreditServiceImpl implements ICreditService {
     @Override
     public List<CreditGetAndUpdateDto> getAllCredits() {
         return creditMapper.toGetDto(creditRepository.findAll());
+    }
+
+    @Override
+    public List<CreditGetAndUpdateDto> getAllCreditsWhereClientIs(UUID clientId) {
+        final Client client = clientRepository.findById(clientId).orElseThrow(NullPointerException::new);
+
+        return creditMapper.toGetDto(creditRepository.findCreditByClientsIs(client));
     }
 }

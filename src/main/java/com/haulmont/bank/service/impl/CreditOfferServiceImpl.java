@@ -1,6 +1,7 @@
 package com.haulmont.bank.service.impl;
 
 import com.haulmont.bank.data.dto.create.CreditOfferCreateDto;
+import com.haulmont.bank.data.dto.get.ClientGetAndUpdateDto;
 import com.haulmont.bank.data.dto.get.CreditOfferGetAndUpdateDto;
 import com.haulmont.bank.data.mapstruct.CreditOfferMapper;
 import com.haulmont.bank.data.model.Client;
@@ -86,5 +87,12 @@ public class CreditOfferServiceImpl implements ICreditOfferService {
     @Override
     public List<CreditOfferGetAndUpdateDto> getAllCreditOffers() {
         return creditOfferMapper.toGetDto(creditOfferRepository.findAll());
+    }
+
+    @Override
+    public List<CreditOfferGetAndUpdateDto> getAllCreditOffersWhereClientIs(UUID clientId) {
+        final Client client = clientRepository.findById(clientId).orElseThrow(NullPointerException::new);
+
+        return creditOfferMapper.toGetDto(creditOfferRepository.findAllByClientIs(client));
     }
 }

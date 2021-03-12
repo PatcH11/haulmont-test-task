@@ -2,6 +2,7 @@ package com.haulmont.bank.service;
 
 import com.haulmont.bank.data.dto.create.CreditCreateDto;
 import com.haulmont.bank.data.dto.get.CreditGetAndUpdateDto;
+import com.haulmont.bank.data.model.Credit;
 
 import java.util.List;
 import java.util.UUID;
@@ -17,4 +18,6 @@ public interface ICreditService {
     void deleteCredit(UUID id);
 
     List<CreditGetAndUpdateDto> getAllCredits();
+
+    List<CreditGetAndUpdateDto> getAllCreditsWhereClientIs(UUID clientId);
 }

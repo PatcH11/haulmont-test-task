@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public interface IPaymentScheduleService {
 
-    PaymentScheduleGetAndUpdateDto createPaymentSchedule(PaymentScheduleCreateDto paymentScheduleCreateDto);
+    PaymentScheduleGetAndUpdateDto createPaymentSchedule(PaymentScheduleCreateDto paymentScheduleCreateDto) throws IllegalAccessException;
 
     PaymentScheduleGetAndUpdateDto updatePaymentSchedule(PaymentScheduleGetAndUpdateDto paymentScheduleGetAndUpdateDto);
 
@@ -17,4 +17,6 @@ public interface IPaymentScheduleService {
     void deletePaymentSchedule(UUID id);
 
     List<PaymentScheduleGetAndUpdateDto> getAllPaymentSchedules();
+
+    List<PaymentScheduleGetAndUpdateDto> getAllPaymentSchedulesWhereClientAndCreditIs(UUID clientId, UUID creditId);
 }
