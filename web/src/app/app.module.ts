@@ -3,7 +3,6 @@ import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
 import {NavigationComponent} from './navigation/navigation.component';
-import {RegisterPageComponent} from './pages/client/register-page/register-page.component';
 import {RouterModule, Routes} from "@angular/router";
 import {NotFoundComponent} from './not-found/not-found.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -14,21 +13,14 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import {LoginPageComponent} from './pages/client/login-page/login-page.component';
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatListModule} from "@angular/material/list";
 import {_MatMenuDirectivesModule, MatMenuModule} from "@angular/material/menu";
-import {CreateClientComponent} from './pages/client/create-client/create-client.component';
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {ClientPageComponent} from './pages/client/client-page/client-page.component';
-import {UpdateClientComponent} from './pages/client/update-client/update-client.component';
 import {MatSelectModule} from "@angular/material/select";
-import {DeleteClientComponent} from './pages/client/delete-client/delete-client.component';
-import {CreateCreditComponent} from './pages/credit/create-credit/create-credit.component';
-import {CreateCreditOfferComponent} from './pages/creditOffer/create-credit-offer/create-credit-offer.component';
-import {CreatePaymentScheduleComponent} from './pages/paymentSchedule/create-payment-schedule/create-payment-schedule.component';
 import {DialogBoxClientComponent} from './pages/client/dialog-box-client/dialog-box-client.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatTableModule} from "@angular/material/table";
@@ -41,28 +33,21 @@ import {DialogBoxPaymentScheduleComponent} from './pages/paymentSchedule/dialog-
 
 const appRoutes: Routes = [
   {
-    path: 'create',
-    children: [
-      {path: 'client', component: CreateClientComponent},
-      {path: 'credit', component: CreateCreditComponent},
-      {path: 'credit-offer', component: CreateCreditOfferComponent},
-      {path: 'payment-schedule', component: CreatePaymentScheduleComponent},
-      {path: 'cl', component: ClientPageComponent},
-      {path: 'cr', component: CreditPageComponent},
-      {path: 'cro', component: CreditOfferPageComponent}
-    ]
+    path: '',
+    component: ClientPageComponent,
+    pathMatch: 'full'
   },
   {
-    path: 'update',
-    children: [
-      {path: 'client', component: UpdateClientComponent}
-    ]
+    path: 'client', component: ClientPageComponent
   },
   {
-    path: 'delete',
-    children: [
-      {path: 'client', component: DeleteClientComponent}
-    ]
+    path: 'credit', component: CreditPageComponent
+  },
+  {
+    path: 'credit-offer', component: CreditOfferPageComponent
+  },
+  {
+    path: 'payment-schedule', component: PaymentSchedulePageComponent
   },
   {
     path: '**',
@@ -74,16 +59,8 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     NavigationComponent,
-    RegisterPageComponent,
     NotFoundComponent,
-    LoginPageComponent,
-    CreateClientComponent,
     ClientPageComponent,
-    UpdateClientComponent,
-    DeleteClientComponent,
-    CreateCreditComponent,
-    CreateCreditOfferComponent,
-    CreatePaymentScheduleComponent,
     DialogBoxClientComponent,
     CreditPageComponent,
     DialogBoxCreditComponent,

@@ -2,36 +2,36 @@
   <mat-toolbar-row>
     <h1>Haulmont</h1>
     <div>
-      <button [matMenuTriggerFor]="clientMenu" mat-button>Клиенты</button>
-      <mat-menu #clientMenu="matMenu">
-        <button mat-menu-item routerLink="/create/client">Добавить</button>
-        <button mat-menu-item routerLink="/update/client">Обновить</button>
-        <button mat-menu-item routerLink="/delete/client">Удалить</button>
-      </mat-menu>
+      <button mat-button routerLink="client">Клиенты</button>
+<!--      <mat-menu #clientMenu="matMenu">-->
+<!--        <button mat-menu-item routerLink="/create/client">Добавить</button>-->
+<!--        <button mat-menu-item routerLink="/update/client">Обновить</button>-->
+<!--        <button mat-menu-item routerLink="/delete/client">Удалить</button>-->
+<!--      </mat-menu>-->
     </div>
     <div>
-      <button [matMenuTriggerFor]="creditMenu" mat-button>Кредиты</button>
-      <mat-menu #creditMenu="matMenu">
-        <button mat-menu-item routerLink="/create/credit">Добавить</button>
-        <button mat-menu-item routerLink="/update/credit">Обновить</button>
-        <button mat-menu-item routerLink="/delete/credit">Удалить</button>
-      </mat-menu>
+      <button mat-button routerLink="credit">Кредиты</button>
+<!--      <mat-menu #creditMenu="matMenu">-->
+<!--        <button mat-menu-item routerLink="/create/credit">Добавить</button>-->
+<!--        <button mat-menu-item routerLink="/update/credit">Обновить</button>-->
+<!--        <button mat-menu-item routerLink="/delete/credit">Удалить</button>-->
+<!--      </mat-menu>-->
     </div>
     <div>
-      <button [matMenuTriggerFor]="creditOfferMenu" mat-button>Кредитные предложения</button>
-      <mat-menu #creditOfferMenu="matMenu">
-        <button mat-menu-item routerLink="/create/credit-offer">Добавить</button>
-        <button mat-menu-item>Обновить</button>
-        <button mat-menu-item>Удалить</button>
-      </mat-menu>
+      <button mat-button routerLink="credit-offer">Кредитные предложения</button>
+<!--      <mat-menu #creditOfferMenu="matMenu">-->
+<!--        <button mat-menu-item routerLink="/create/credit-offer">Добавить</button>-->
+<!--        <button mat-menu-item>Обновить</button>-->
+<!--        <button mat-menu-item>Удалить</button>-->
+<!--      </mat-menu>-->
     </div>
     <div>
-      <button [matMenuTriggerFor]="paymentMenu" mat-button>Графики платежей</button>
-      <mat-menu #paymentMenu="matMenu">
-        <button mat-menu-item>Добавить</button>
-        <button mat-menu-item>Обновить</button>
-        <button mat-menu-item>Удалить</button>
-      </mat-menu>
+      <button mat-button routerLink="payment-schedule">Графики платежей</button>
+<!--      <mat-menu #paymentMenu="matMenu">-->
+<!--        <button mat-menu-item>Добавить</button>-->
+<!--        <button mat-menu-item>Обновить</button>-->
+<!--        <button mat-menu-item>Удалить</button>-->
+<!--      </mat-menu>-->
     </div>
   </mat-toolbar-row>
 </mat-toolbar>
