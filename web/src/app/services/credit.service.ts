@@ -32,4 +32,8 @@ export class CreditService {
   public getAllCredits(): Observable<Credit[]> {
     return this.http.get<Credit[]>(this.BASE_CREDIT_URL);
   }
+
+  public getAllCreditsWhereClientIs(clientId: string): Observable<Credit[]> {
+    return this.http.get<Credit[]>(this.BASE_CREDIT_URL + `\\all\\${clientId}`);
+  }
 }

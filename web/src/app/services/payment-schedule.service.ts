@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {PaymentSchedule} from "../models/paymentSchedule";
+import {PaymentSchedule, PaymentScheduleCreate} from "../models/paymentSchedule";
 import {Observable} from "rxjs";
 
 @Injectable({
@@ -13,7 +13,7 @@ export class PaymentScheduleService {
   constructor(private http: HttpClient) {
   }
 
-  public createPaymentSchedule(paymentSchedule: PaymentSchedule): Observable<PaymentSchedule> {
+  public createPaymentSchedule(paymentSchedule: PaymentScheduleCreate): Observable<PaymentSchedule> {
     return this.http.post<PaymentSchedule>(this.BASE_PAYMENT_SCHEDULE_URL, paymentSchedule);
   }
 
@@ -31,5 +31,9 @@ export class PaymentScheduleService {
 
   public getAllPaymentSchedules(): Observable<PaymentSchedule[]> {
     return this.http.get<PaymentSchedule[]>(this.BASE_PAYMENT_SCHEDULE_URL);
+  }
+
+  public getAllPaymentSchedulesWhereClientAndCreditIs(clientId: string, creditId: string): Observable<PaymentSchedule[]> {
+    return this.http.get<PaymentSchedule[]>(this.BASE_PAYMENT_SCHEDULE_URL + `\\all\\${clientId}\\${creditId}`);
   }
 }

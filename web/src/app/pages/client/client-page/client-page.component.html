@@ -1,9 +1,10 @@
 <br>
 <div class="container">
-
-  <button (click)="openDialog('Add',{})" color="primary" mat-button mat-flat-button style="margin-left: 88%">Добавить
+  <button (click)="openDialog('Add',{})" color="primary" mat-button mat-flat-button>Добавить
     клиента
   </button>
+</div>
+<div class="container">
 
   <table #mytable [dataSource]="dataSource" class="my-table mat-elevation-z8" mat-table style="width: 100%">
 
@@ -40,8 +41,9 @@
     <ng-container matColumnDef="action">
       <th *matHeaderCellDef mat-header-cell> Действия</th>
       <td *matCellDef="let element" class="action-link" mat-cell>
-        <a (click)="openDialog('Update',element)">Изменить</a> |
-        <a (click)="openDialog('Delete',element)">Удалить</a>
+        <button mat-raised-button color="accent" (click)="openDialog('Update',element)">Изменить</button>
+        |
+        <button mat-raised-button color="warn" (click)="openDialog('Delete',element)">Удалить</button>
       </td>
     </ng-container>
 

@@ -1,5 +1,5 @@
-<h1 mat-dialog-title>Row Action :: <strong>{{action}}</strong></h1>
-<div [formGroup]="clientForm" mat-dialog-content>
+<h1 mat-dialog-title class="text-center"><strong>{{action}}</strong></h1>
+<div [formGroup]="clientForm" mat-dialog-content class="text-center">
   <div *ngIf="action != 'Delete'; else elseTemplate">
     <p>
       <mat-form-field appearance="legacy">
@@ -7,7 +7,6 @@
         <label>
           <input [(ngModel)]="local_data.lastName" formControlName="lastName" matInput placeholder="Введите фамилию">
         </label>
-        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
         <mat-error *ngIf="clientForm.get('lastName').invalid">{{getErrorLastNameMessage()}}</mat-error>
       </mat-form-field>
     </p>
@@ -17,7 +16,6 @@
         <label>
           <input [(ngModel)]="local_data.firstName" formControlName="firstName" matInput placeholder="Введите имя">
         </label>
-        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
         <mat-error *ngIf="clientForm.get('firstName').invalid">{{getErrorFirstNameMessage()}}</mat-error>
       </mat-form-field>
     </p>
@@ -28,7 +26,6 @@
           <input [(ngModel)]="local_data.patronymic" formControlName="patronymic" matInput
                  placeholder="Введите отчество">
         </label>
-        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
         <mat-error *ngIf="clientForm.get('patronymic').invalid">{{getErrorPatronymicMessage()}}</mat-error>
       </mat-form-field>
     </p>
@@ -39,7 +36,6 @@
           <input #input [(ngModel)]="local_data.phoneNumber" formControlName="phoneNumber" matInput maxlength="11"
                  minlength="11" placeholder="Введите номер">
         </label>
-        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
         <mat-error *ngIf="clientForm.get('phoneNumber').invalid">{{getErrorPatronymicMessage()}}</mat-error>
       </mat-form-field>
     </p>
@@ -49,7 +45,6 @@
         <label>
           <input [(ngModel)]="local_data.email" formControlName="email" matInput placeholder="pat@example.com">
         </label>
-        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
         <mat-error *ngIf="clientForm.get('email').invalid">{{getErrorEmailMessage()}}</mat-error>
       </mat-form-field>
     </p>
@@ -60,17 +55,19 @@
           <input #input [(ngModel)]="local_data.passportNumber" formControlName="passportNumber" matInput maxlength="6"
                  minlength="6">
         </label>
-        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
         <mat-hint align="end">{{input.value?.length || 0}}/6</mat-hint>
         <mat-error *ngIf="clientForm.get('passportNumber').invalid">{{getErrorPassportNumberMessage()}}</mat-error>
       </mat-form-field>
     </p>
   </div>
   <ng-template #elseTemplate>
-    Sure to delete <b>{{local_data.name}}</b>?
+    Уверены, что ходите удалить
+    <b>{{local_data.lastName + ' ' + local_data.firstName + ' ' + local_data.patronymic}}</b>?
   </ng-template>
 </div>
-<div mat-dialog-actions>
-  <button (click)="doAction()" mat-button>{{action}}</button>
+<div mat-dialog-actions class="justify-content-center">
+  <button (click)="doAction()" mat-button *ngIf="action === 'Delete'">{{action}}</button>
+  <button (click)="doAction()" mat-button *ngIf="action !== 'Delete'"
+          [disabled]="clientForm.invalid">{{action}}</button>
   <button (click)="closeDialog()" color="warn" mat-button mat-flat-button>Cancel</button>
 </div>

@@ -72,7 +72,7 @@ export class CreditPageComponent implements OnInit {
       }
     );
 
-    this.table.renderRows();
+    window.location.reload();
   }
 
   updateRowData(row_obj) {
@@ -94,7 +94,7 @@ export class CreditPageComponent implements OnInit {
       }
     );
 
-    this.table.renderRows();
+    window.location.reload();
   }
 
   deleteRowData(row_obj) {
@@ -108,6 +108,6 @@ export class CreditPageComponent implements OnInit {
       }
     );
 
-    this.table.renderRows();
+    window.location.reload();
   }
 }

@@ -40,7 +40,7 @@ export class ClientPageComponent implements OnInit {
   openDialog(action, obj) {
     obj.action = action;
     const dialogRef = this.dialog.open(DialogBoxClientComponent, {
-      width: '250px',
+      width: '350px',
       data: obj
     });
 
@@ -74,7 +74,7 @@ export class ClientPageComponent implements OnInit {
       }
     );
 
-    this.table.renderRows();
+    window.location.reload();
   }
 
   updateRowData(row_obj) {
@@ -98,7 +98,7 @@ export class ClientPageComponent implements OnInit {
       }
     );
 
-    this.table.renderRows();
+    window.location.reload();
   }
 
   deleteRowData(row_obj) {
@@ -112,6 +112,6 @@ export class ClientPageComponent implements OnInit {
       }
     );
 
-    this.table.renderRows();
+    window.location.reload();
   }
 }

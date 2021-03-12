@@ -1,1 +1,69 @@
-<p>payment-schedule-page works!</p>
+<br>
+<div class="container text-center">
+  <div class="row">
+    <div class="p-2">
+      <mat-form-field appearance="fill" style="width: 25%">
+        <mat-label>Клиенты</mat-label>
+        <mat-select [(ngModel)]="client" (ngModelChange)="onChange($event)">
+          <mat-option></mat-option>
+          <mat-option *ngFor="let option of clients"
+                      [value]="option"
+                      (click)="getAllCreditsWhereClientIs(option.id)">{{ option.lastName + ' ' + option.firstName + ' ' + option.patronymic }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="p-2" *ngIf="credits !== undefined">
+      <mat-form-field appearance="fill" style="width: 25%">
+        <mat-label>Кредиты</mat-label>
+        <mat-select>
+          <mat-option></mat-option>
+          <mat-option *ngFor="let option of credits"
+                      [value]="option"
+                      (click)="getAllPaymentSchedules(client.id,option.id)">{{ option.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+</div>
+<div class="container" *ngIf="dataSource !== undefined">
+  <div class="container">
+    <button (click)="createPaymentSchedule(dataSource[0].creditOffer.id)" color="primary" mat-button mat-flat-button>
+      Внести
+      платеж за кредит
+    </button>
+  </div>
+  <div class="container">
+
+    <table #mytable [dataSource]="dataSource" class="my-table mat-elevation-z8" mat-table style="width: 100%">
+
+      <ng-container matColumnDef="date">
+        <th *matHeaderCellDef mat-header-cell> Дата платежа</th>
+        <td *matCellDef="let element" mat-cell> {{element.date}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="amountPayment">
+        <th *matHeaderCellDef mat-header-cell> Внесенная сумма</th>
+        <td *matCellDef="let element" mat-cell> {{element.amountPayment}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="repaymentAmountLoanBody">
+        <th *matHeaderCellDef mat-header-cell> Тело гашения кредита</th>
+        <td *matCellDef="let element" mat-cell> {{element.repaymentAmountLoanBody}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="repaymentAmountPercentages">
+        <th *matHeaderCellDef mat-header-cell> Тело гашения процента</th>
+        <td *matCellDef="let element" mat-cell> {{element.repaymentAmountPercentages}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="indebtedness">
+        <th *matHeaderCellDef mat-header-cell> Остаток долга</th>
+        <td *matCellDef="let element" mat-cell> {{element.indebtedness}} </td>
+      </ng-container>
+
+      <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+      <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+    </table>
+
+  </div>
+</div>

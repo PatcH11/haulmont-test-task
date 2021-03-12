@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit, Optional} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {CreditOffer} from "../../../models/creditOffer";
 import {Client} from "../../../models/client";
@@ -25,7 +25,6 @@ export class DialogBoxCreditOfferComponent implements OnInit {
               public dialogRef: MatDialogRef<DialogBoxCreditOfferComponent>,
               private clientService: ClientService,
               private creditService: CreditService,
-              //@Optional() is used to prevent error if no data is passed
               @Optional() @Inject(MAT_DIALOG_DATA) public data: CreditOffer) {
     console.log(data);
     this.local_data = {...data};
@@ -70,7 +69,7 @@ export class DialogBoxCreditOfferComponent implements OnInit {
     this.creditOfferForm = this.formBuilder.group({
       client: this.formBuilder.control(undefined, [Validators.required]),
       credit: this.formBuilder.control(undefined, [Validators.required]),
-      creditAmount: this.formBuilder.control(undefined, [Validators.required, Validators.pattern("^\\d+$")])
+      creditAmount: this.formBuilder.control(undefined, [Validators.required, Validators.pattern("^\\d+$"), Validators.min(1)])
     });
   }
 }

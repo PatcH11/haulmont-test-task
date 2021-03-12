@@ -40,7 +40,7 @@ export class CreditOfferPageComponent implements OnInit {
   openDialog(action, obj) {
     obj.action = action;
     const dialogRef = this.dialog.open(DialogBoxCreditOfferComponent, {
-      width: '250px',
+      width: '450px',
       data: obj
     });
 
@@ -72,7 +72,7 @@ export class CreditOfferPageComponent implements OnInit {
       }
     );
 
-    this.table.renderRows();
+    window.location.reload();
   }
 
   updateRowData(row_obj) {
@@ -94,7 +94,7 @@ export class CreditOfferPageComponent implements OnInit {
       }
     );
 
-    this.table.renderRows();
+    window.location.reload();
   }
 
   deleteRowData(row_obj) {
@@ -108,7 +108,6 @@ export class CreditOfferPageComponent implements OnInit {
       }
     );
 
-    this.table.renderRows();
+    window.location.reload();
   }
-
 }
