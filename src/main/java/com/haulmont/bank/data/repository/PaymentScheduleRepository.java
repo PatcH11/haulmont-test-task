@@ -12,4 +12,6 @@ public interface PaymentScheduleRepository extends JpaRepository<PaymentSchedule
     PaymentSchedule findFirstByCreditOfferOrderByDateDesc(CreditOffer creditOffer);
 
     List<PaymentSchedule> findByCreditOfferOrderByDate(CreditOffer creditOffer);
+
+    void deleteByCreditOffer(CreditOffer creditOffer);
 }
