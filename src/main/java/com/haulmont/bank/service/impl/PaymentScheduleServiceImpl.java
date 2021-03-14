@@ -11,8 +11,8 @@ import com.haulmont.bank.data.repository.ClientRepository;
 import com.haulmont.bank.data.repository.CreditOfferRepository;
 import com.haulmont.bank.data.repository.CreditRepository;
 import com.haulmont.bank.data.repository.PaymentScheduleRepository;
-import com.haulmont.bank.exception.PaymentScheduleException;
 import com.haulmont.bank.service.IPaymentScheduleService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +28,7 @@ public class PaymentScheduleServiceImpl implements IPaymentScheduleService {
     private final CreditOfferRepository creditOfferRepository;
     private final PaymentScheduleMapper paymentScheduleMapper;
 
+    @Autowired
     public PaymentScheduleServiceImpl(PaymentScheduleRepository paymentScheduleRepository,
                                       ClientRepository clientRepository,
                                       CreditRepository creditRepository,
@@ -42,15 +43,13 @@ public class PaymentScheduleServiceImpl implements IPaymentScheduleService {
 
     @Override
     @Transactional
-    public PaymentScheduleGetDto createPaymentSchedule(PaymentScheduleCreateDto paymentScheduleCreateDto) throws PaymentScheduleException {
+    public PaymentScheduleGetDto createPaymentSchedule(PaymentScheduleCreateDto paymentScheduleCreateDto) {
         final CreditOffer creditOffer = creditOfferRepository.findById(paymentScheduleCreateDto.getCreditOfferId()).orElseThrow(NullPointerException::new);
         final PaymentSchedule lastPaymentSchedule = paymentScheduleRepository.findFirstByCreditOfferOrderByDateDesc(creditOffer);
 
         final PaymentSchedule paymentSchedule = paymentScheduleMapper.fromCreateDto(paymentScheduleCreateDto);
 
-        if (lastPaymentSchedule.getIndebtedness() == 0.0) {
-            throw new PaymentScheduleException("Вы уже выплатили кредит");
-        } else if ((lastPaymentSchedule.getIndebtedness() - calculationMonthlyPayment(creditOffer)) < 0) {
+        if ((lastPaymentSchedule.getIndebtedness() - calculationMonthlyPayment(creditOffer)) < 0) {
             paymentSchedule.setAmountPayment(lastPaymentSchedule.getIndebtedness() + calculationRepaymentAmountPercentages(lastPaymentSchedule));
             paymentSchedule.setRepaymentAmountLoanBody(lastPaymentSchedule.getIndebtedness());
             paymentSchedule.setRepaymentAmountPercentages(calculationRepaymentAmountPercentages(lastPaymentSchedule));
@@ -71,12 +70,6 @@ public class PaymentScheduleServiceImpl implements IPaymentScheduleService {
         final PaymentSchedule paymentSchedule = paymentScheduleRepository.findById(id).orElseThrow(NullPointerException::new);
 
         return paymentScheduleMapper.toGetDto(paymentSchedule);
-    }
-
-    @Override
-    @Transactional
-    public void deletePaymentSchedule(UUID id) {
-        paymentScheduleRepository.deleteById(id);
     }
 
     @Override

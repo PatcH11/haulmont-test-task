@@ -13,6 +13,7 @@ import com.haulmont.bank.data.repository.CreditOfferRepository;
 import com.haulmont.bank.data.repository.CreditRepository;
 import com.haulmont.bank.data.repository.PaymentScheduleRepository;
 import com.haulmont.bank.service.ICreditOfferService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +29,7 @@ public class CreditOfferServiceImpl implements ICreditOfferService {
     private final PaymentScheduleRepository paymentScheduleRepository;
     private final CreditOfferMapper creditOfferMapper;
 
+    @Autowired
     public CreditOfferServiceImpl(CreditOfferRepository creditOfferRepository,
                                   ClientRepository clientRepository,
                                   CreditRepository creditRepository,
@@ -61,8 +63,10 @@ public class CreditOfferServiceImpl implements ICreditOfferService {
     public CreditOfferGetDto updateCreditOffer(CreditOfferUpdateDto creditOfferUpdateDto) {
         final CreditOffer creditOffer = creditOfferRepository.findById(creditOfferUpdateDto.getId()).orElseThrow(NullPointerException::new);
         paymentScheduleRepository.deleteByCreditOffer(creditOffer);
+
         creditOffer.setCreditAmount(creditOfferUpdateDto.getCreditAmount());
         creditOfferRepository.saveAndFlush(creditOffer);
+
         paymentScheduleRepository.save(createPaymentSchedule(creditOffer));
 
         return creditOfferMapper.toGetDto(creditOffer);
@@ -79,10 +83,9 @@ public class CreditOfferServiceImpl implements ICreditOfferService {
     @Transactional
     public void deleteCreditOffer(UUID id) {
         final CreditOffer creditOffer = creditOfferRepository.findById(id).orElseThrow(NullPointerException::new);
-        final Client client = creditOffer.getClient();
+        final Client client = clientRepository.findById(creditOffer.getClient().getId()).orElseThrow(NullPointerException::new);
         client.getCredits().remove(creditOffer.getCredit());
         clientRepository.saveAndFlush(client);
-        paymentScheduleRepository.deleteByCreditOffer(creditOffer);
         creditOfferRepository.deleteById(id);
     }
 

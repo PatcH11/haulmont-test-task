@@ -5,11 +5,9 @@ import com.haulmont.bank.data.dto.get.ClientGetDto;
 import com.haulmont.bank.data.dto.update.ClientUpdateDto;
 import com.haulmont.bank.data.mapstruct.ClientMapper;
 import com.haulmont.bank.data.model.Client;
-import com.haulmont.bank.data.model.CreditOffer;
 import com.haulmont.bank.data.repository.ClientRepository;
-import com.haulmont.bank.data.repository.CreditOfferRepository;
 import com.haulmont.bank.service.IClientService;
-import com.haulmont.bank.service.ICreditOfferService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,19 +17,14 @@ import java.util.UUID;
 @Service
 public class ClientServiceImpl implements IClientService {
 
-    private final CreditOfferRepository creditOfferRepository;
     private final ClientRepository clientRepository;
     private final ClientMapper clientMapper;
-    private final ICreditOfferService creditOfferService;
 
-    public ClientServiceImpl(CreditOfferRepository creditOfferRepository,
-                             ClientRepository clientRepository,
-                             ClientMapper clientMapper,
-                             ICreditOfferService creditOfferService) {
-        this.creditOfferRepository = creditOfferRepository;
+    @Autowired
+    public ClientServiceImpl(ClientRepository clientRepository,
+                             ClientMapper clientMapper) {
         this.clientRepository = clientRepository;
         this.clientMapper = clientMapper;
-        this.creditOfferService = creditOfferService;
     }
 
     @Override
@@ -69,11 +62,6 @@ public class ClientServiceImpl implements IClientService {
     @Override
     @Transactional
     public void deleteClient(UUID id) {
-        final Client client = clientRepository.findById(id).orElseThrow(NullPointerException::new);
-        if (creditOfferRepository.findByClientIs(client) != null) {
-            final CreditOffer creditOffer = creditOfferRepository.findByClientIs(client);
-            creditOfferService.deleteCreditOffer(creditOffer.getId());
-        }
         clientRepository.deleteById(id);
     }
 
