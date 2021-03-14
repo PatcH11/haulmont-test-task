@@ -6,8 +6,11 @@ import com.haulmont.bank.data.dto.update.CreditUpdateDto;
 import com.haulmont.bank.data.mapstruct.CreditMapper;
 import com.haulmont.bank.data.model.Client;
 import com.haulmont.bank.data.model.Credit;
+import com.haulmont.bank.data.model.CreditOffer;
 import com.haulmont.bank.data.repository.ClientRepository;
+import com.haulmont.bank.data.repository.CreditOfferRepository;
 import com.haulmont.bank.data.repository.CreditRepository;
+import com.haulmont.bank.service.ICreditOfferService;
 import com.haulmont.bank.service.ICreditService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,16 +21,22 @@ import java.util.UUID;
 @Service
 public class CreditServiceImpl implements ICreditService {
 
+    private final CreditOfferRepository creditOfferRepository;
     private final CreditRepository creditRepository;
     private final ClientRepository clientRepository;
     private final CreditMapper creditMapper;
+    private final ICreditOfferService creditOfferService;
 
-    public CreditServiceImpl(CreditRepository creditRepository,
+    public CreditServiceImpl(CreditOfferRepository creditOfferRepository,
+                             CreditRepository creditRepository,
                              ClientRepository clientRepository,
-                             CreditMapper creditMapper) {
+                             CreditMapper creditMapper,
+                             ICreditOfferService creditOfferService) {
+        this.creditOfferRepository = creditOfferRepository;
         this.creditRepository = creditRepository;
         this.clientRepository = clientRepository;
         this.creditMapper = creditMapper;
+        this.creditOfferService = creditOfferService;
     }
 
     @Override
@@ -60,6 +69,11 @@ public class CreditServiceImpl implements ICreditService {
     @Override
     @Transactional
     public void deleteCredit(UUID id) {
+        final Credit credit = creditRepository.findById(id).orElseThrow(NullPointerException::new);
+        if (creditOfferRepository.findByCreditIs(credit) != null) {
+            final CreditOffer creditOffer = creditOfferRepository.findByCreditIs(credit);
+            creditOfferService.deleteCreditOffer(creditOffer.getId());
+        }
         creditRepository.deleteById(id);
     }
 
