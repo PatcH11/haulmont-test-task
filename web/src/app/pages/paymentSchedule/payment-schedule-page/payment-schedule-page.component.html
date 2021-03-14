@@ -17,7 +17,7 @@
       <h1>Шаг 2. Выберите кредит клиента, для которого хотите посмотртреть график платежей</h1>
       <mat-form-field appearance="fill" style="width: 25%">
         <mat-label>Кредиты</mat-label>
-        <mat-select>
+        <mat-select [(ngModel)]="credit" (ngModelChange)="onChangeCredit($event)">
           <mat-option></mat-option>
           <mat-option *ngFor="let option of credits"
                       [value]="option"
@@ -29,11 +29,14 @@
 </div>
 <div class="container" *ngIf="dataSource !== undefined">
   <div class="container">
-    <button (click)="createPaymentSchedule(dataSource[0].creditOffer.id)" color="primary" mat-button mat-flat-button>
+    <button (click)="createPaymentSchedule(dataSource[0].creditOffer.id)" color="primary" mat-button mat-flat-button
+            [disabled]="isLoanPaid">
       Внести
       платеж за кредит
     </button>
+    <h1 *ngIf="isLoanPaid">Поздравляем, Вы погасили кредит!</h1>
   </div>
+  <br>
   <div class="container">
 
     <table [dataSource]="dataSource" class="my-table mat-elevation-z8" mat-table style="width: 100%">

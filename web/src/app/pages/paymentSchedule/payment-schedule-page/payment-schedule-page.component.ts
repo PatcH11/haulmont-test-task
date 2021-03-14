@@ -6,6 +6,7 @@ import {Client} from "../../../models/client";
 import {ClientService} from "../../../services/client.service";
 import {CreditService} from "../../../services/credit.service";
 import {Credit} from "../../../models/credit";
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-payment-schedule-page',
@@ -20,6 +21,8 @@ export class PaymentSchedulePageComponent implements OnInit {
   clients: Client[];
   credits: Credit[];
   client: Client;
+  credit: Credit;
+  isLoanPaid = false;
 
   @ViewChild(MatTable, {static: true}) table: MatTable<any>;
 
@@ -31,6 +34,7 @@ export class PaymentSchedulePageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(moment());
     this.getAllClients();
   }
 
@@ -39,7 +43,7 @@ export class PaymentSchedulePageComponent implements OnInit {
       res => {
         this.clients = res;
       }, error => {
-        console.log('gg');
+        console.log(error);
       }
     );
   }
@@ -49,7 +53,7 @@ export class PaymentSchedulePageComponent implements OnInit {
       res => {
         this.credits = res;
       }, error => {
-        console.log('df');
+        console.log(error);
       }
     );
   }
@@ -57,9 +61,15 @@ export class PaymentSchedulePageComponent implements OnInit {
   getAllPaymentSchedules(clientId: string, creditId: string) {
     this.paymentScheduleService.getAllPaymentSchedulesWhereClientAndCreditIs(clientId, creditId).subscribe(
       res => {
+        if (res[res.length - 1].indebtedness === 0.0) {
+          this.isLoanPaid = true;
+        }
+        res.forEach(value => {
+          value.date = moment(value.date).locale('ru').format('MMMM Do YYYY, h:mm:ss a');
+        });
         this.dataSource = res;
       }, error => {
-        console.log('ss');
+        console.log(error);
       }
     );
   }
@@ -71,13 +81,14 @@ export class PaymentSchedulePageComponent implements OnInit {
 
     this.paymentScheduleService.createPaymentSchedule(paymentSchedule).subscribe(
       res => {
-        console.log(res);
+        if (res.indebtedness === 0) {
+          this.isLoanPaid = true;
+        }
+        this.refresh()
       }, error => {
-        console.log('bad');
+        console.log(error);
       }
     );
-
-    window.location.reload();
   }
 
   onChange(newValue) {
@@ -85,5 +96,13 @@ export class PaymentSchedulePageComponent implements OnInit {
     this.credits = undefined;
     this.dataSource = undefined;
     this.client = newValue;
+  }
+
+  onChangeCredit(newValue) {
+    this.credit = newValue;
+  }
+
+  refresh() {
+    this.getAllPaymentSchedules(this.client.id, this.credit.id);
   }
 }

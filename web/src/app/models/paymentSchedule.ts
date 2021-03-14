@@ -7,7 +7,7 @@ export interface PaymentScheduleCreate {
 export interface PaymentSchedule {
   id: string;
   creditOffer: CreditOffer;
-  date: Date;
+  date: string;
   amountPayment: number;
   repaymentAmountLoanBody: number;
   repaymentAmountPercentages: number;

@@ -4,6 +4,7 @@ import {MatTable} from "@angular/material/table";
 import {MatDialog} from "@angular/material/dialog";
 import {CreditOfferService} from "../../../services/credit-offer.service";
 import {DialogBoxCreditOfferComponent} from "../dialog-box-credit-offer/dialog-box-credit-offer.component";
+import {Credit} from "../../../models/credit";
 
 @Component({
   selector: 'app-credit-offer-page',
@@ -62,17 +63,7 @@ export class CreditOfferPageComponent implements OnInit {
       creditAmount: row_obj.creditAmount
     } as CreditOfferCreate;
 
-    this.creditOfferService.createCreditOffer(creditOffer).subscribe(
-      res => {
-        console.log(res);
-        console.log('Кредитное предложение добавлено!');
-      }, error => {
-        console.log(creditOffer);
-        console.log('Кредитное предложение не добавлено!');
-      }
-    );
-
-    window.location.reload();
+    this.creditOfferService.createCreditOffer(creditOffer).subscribe(() => this.refresh());
   }
 
   updateCreditOffer(row_obj) {
@@ -81,31 +72,16 @@ export class CreditOfferPageComponent implements OnInit {
       creditAmount: row_obj.creditAmount
     } as CreditOfferUpdate;
 
-    this.creditOfferService.updateCreditOffer(updateCreditOffer).subscribe(
-      res => {
-        console.log('Кредитное предложение обновлено!');
-        return true;
-      }, error => {
-        console.log(updateCreditOffer);
-        console.log('Кредитное предложение не обновлено!');
-        return false;
-      }
-    );
-
-    window.location.reload();
+    this.creditOfferService.updateCreditOffer(updateCreditOffer).subscribe(() => this.refresh());
   }
 
   deleteCreditOffer(row_obj) {
-    this.creditOfferService.deleteCreditOffer(row_obj.id).subscribe(
-      res => {
-        console.log('Кредитное предложение удалено!');
-        return true;
-      }, error => {
-        console.log('Кредитное предложение не удалено!');
-        return false;
-      }
-    );
+    this.creditOfferService.deleteCreditOffer(row_obj.id).subscribe(() => this.refresh());
+  }
 
-    window.location.reload();
+  refresh() {
+    this.creditOfferService.getAllCreditOffers().subscribe((data: CreditOffer[]) => {
+      this.dataSource = data
+    });
   }
 }

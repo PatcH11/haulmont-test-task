@@ -4,6 +4,7 @@ import {Credit, CreditCreate, CreditUpdate} from "../../../models/credit";
 import {MatDialog} from "@angular/material/dialog";
 import {CreditService} from "../../../services/credit.service";
 import {DialogBoxCreditComponent} from "../dialog-box-credit/dialog-box-credit.component";
+import {Client} from "../../../models/client";
 
 @Component({
   selector: 'app-credit-page',
@@ -62,17 +63,7 @@ export class CreditPageComponent implements OnInit {
       interestRate: row_obj.interestRate
     } as CreditCreate;
 
-    this.creditService.createCredit(credit).subscribe(
-      res => {
-        console.log(res);
-        console.log('Кредит добавлен!');
-      }, error => {
-        console.log(credit);
-        console.log('Кредит не добавлен!');
-      }
-    );
-
-    window.location.reload();
+    this.creditService.createCredit(credit).subscribe(() => this.refresh());
   }
 
   updateCredit(row_obj) {
@@ -81,31 +72,16 @@ export class CreditPageComponent implements OnInit {
       name: row_obj.name
     } as CreditUpdate;
 
-    this.creditService.updateCredit(updateCredit).subscribe(
-      res => {
-        console.log('Кредит обновлен!');
-        return true;
-      }, error => {
-        console.log(updateCredit);
-        console.log('Кредит не обновлен!');
-        return false;
-      }
-    );
-
-    window.location.reload();
+    this.creditService.updateCredit(updateCredit).subscribe(() => this.refresh());
   }
 
   deleteCredit(row_obj) {
-    this.creditService.deleteCredit(row_obj.id).subscribe(
-      res => {
-        console.log('Кредит удален!');
-        return true;
-      }, error => {
-        console.log('Кредит не удален!');
-        return false;
-      }
-    );
+    this.creditService.deleteCredit(row_obj.id).subscribe(() => this.refresh());
+  }
 
-    window.location.reload();
+  refresh() {
+    this.creditService.getAllCredits().subscribe((data: Credit[]) => {
+      this.dataSource = data
+    })
   }
 }

@@ -65,16 +65,8 @@ export class ClientPageComponent implements OnInit {
       passportNumber: row_obj.passportNumber
     } as ClientCreate;
 
-    this.clientService.createClient(client).subscribe(
-      res => {
-        console.log('Клиент добавлен!');
-      }, error => {
-        console.log(client);
-        console.log('Клиент не добавлен!');
-      }
-    );
+    this.clientService.createClient(client).subscribe(() => this.refresh());
 
-    window.location.reload();
   }
 
   updateClient(row_obj) {
@@ -88,30 +80,16 @@ export class ClientPageComponent implements OnInit {
       passportNumber: row_obj.passportNumber
     } as ClientUpdate;
 
-    this.clientService.updateClient(updateClient).subscribe(
-      res => {
-        console.log('Клиент обновлен!');
-        return true;
-      }, error => {
-        console.log('Клиент не обновлен!');
-        return false;
-      }
-    );
-
-    window.location.reload();
+    this.clientService.updateClient(updateClient).subscribe(() => this.refresh());
   }
 
   deleteClient(row_obj) {
-    this.clientService.deleteClient(row_obj.id).subscribe(
-      res => {
-        console.log('Клиент удален!');
-        return true;
-      }, error => {
-        console.log('Клиент не удален!');
-        return false;
-      }
-    );
+    this.clientService.deleteClient(row_obj.id).subscribe(() => this.refresh());
+  }
 
-    window.location.reload();
+  refresh() {
+    this.clientService.getAllClients().subscribe((data: Client[]) => {
+      this.dataSource = data
+    })
   }
 }
