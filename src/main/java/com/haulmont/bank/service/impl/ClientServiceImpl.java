@@ -1,7 +1,8 @@
 package com.haulmont.bank.service.impl;
 
 import com.haulmont.bank.data.dto.create.ClientCreateDto;
-import com.haulmont.bank.data.dto.get.ClientGetAndUpdateDto;
+import com.haulmont.bank.data.dto.get.ClientGetDto;
+import com.haulmont.bank.data.dto.update.ClientUpdateDto;
 import com.haulmont.bank.data.mapstruct.ClientMapper;
 import com.haulmont.bank.data.model.Client;
 import com.haulmont.bank.data.repository.ClientRepository;
@@ -26,34 +27,34 @@ public class ClientServiceImpl implements IClientService {
 
     @Override
     @Transactional
-    public ClientGetAndUpdateDto createClient(ClientCreateDto clientCreateDto) {
+    public ClientGetDto createClient(ClientCreateDto clientCreateDto) {
         final Client client = clientMapper.fromCreateDto(clientCreateDto);
         clientRepository.save(client);
 
-        return clientMapper.toGetAndUpdateDto(client);
+        return clientMapper.toGetDto(client);
     }
 
     @Override
     @Transactional
-    public ClientGetAndUpdateDto updateClient(ClientGetAndUpdateDto clientGetAndUpdateDto) {
-        final Client client = clientRepository.findById(clientGetAndUpdateDto.getId()).orElseThrow(NullPointerException::new);
-        client.setFirstName(clientGetAndUpdateDto.getFirstName());
-        client.setLastName(clientGetAndUpdateDto.getLastName());
-        client.setPatronymic(clientGetAndUpdateDto.getPatronymic());
-        client.setPhoneNumber(clientGetAndUpdateDto.getPhoneNumber());
-        client.setEmail(clientGetAndUpdateDto.getEmail());
-        client.setPassportNumber(clientGetAndUpdateDto.getPassportNumber());
+    public ClientGetDto updateClient(ClientUpdateDto clientUpdateDto) {
+        final Client client = clientMapper.fromUpdateDto(clientUpdateDto);
+        client.setFirstName(clientUpdateDto.getFirstName());
+        client.setLastName(clientUpdateDto.getLastName());
+        client.setPatronymic(clientUpdateDto.getPatronymic());
+        client.setPhoneNumber(clientUpdateDto.getPhoneNumber());
+        client.setEmail(clientUpdateDto.getEmail());
+        client.setPassportNumber(clientUpdateDto.getPassportNumber());
 
         final Client updatedClient = clientRepository.saveAndFlush(client);
 
-        return clientMapper.toGetAndUpdateDto(updatedClient);
+        return clientMapper.toGetDto(updatedClient);
     }
 
     @Override
-    public ClientGetAndUpdateDto getClient(UUID id) {
+    public ClientGetDto getClient(UUID id) {
         final Client client = clientRepository.findById(id).orElseThrow(NullPointerException::new);
 
-        return clientMapper.toGetAndUpdateDto(client);
+        return clientMapper.toGetDto(client);
     }
 
     @Override
@@ -63,7 +64,7 @@ public class ClientServiceImpl implements IClientService {
     }
 
     @Override
-    public List<ClientGetAndUpdateDto> getAllClients() {
+    public List<ClientGetDto> getAllClients() {
         return clientMapper.toGetDto(clientRepository.findAll());
     }
 }

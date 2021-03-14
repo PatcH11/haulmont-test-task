@@ -1,8 +1,8 @@
 package com.haulmont.bank.service.impl;
 
 import com.haulmont.bank.data.dto.create.CreditOfferCreateDto;
-import com.haulmont.bank.data.dto.get.ClientGetAndUpdateDto;
-import com.haulmont.bank.data.dto.get.CreditOfferGetAndUpdateDto;
+import com.haulmont.bank.data.dto.get.CreditOfferGetDto;
+import com.haulmont.bank.data.dto.update.CreditOfferUpdateDto;
 import com.haulmont.bank.data.mapstruct.CreditOfferMapper;
 import com.haulmont.bank.data.model.Client;
 import com.haulmont.bank.data.model.Credit;
@@ -30,7 +30,8 @@ public class CreditOfferServiceImpl implements ICreditOfferService {
 
     public CreditOfferServiceImpl(CreditOfferRepository creditOfferRepository,
                                   ClientRepository clientRepository,
-                                  CreditRepository creditRepository, PaymentScheduleRepository paymentScheduleRepository,
+                                  CreditRepository creditRepository,
+                                  PaymentScheduleRepository paymentScheduleRepository,
                                   CreditOfferMapper creditOfferMapper) {
         this.creditOfferRepository = creditOfferRepository;
         this.clientRepository = clientRepository;
@@ -41,7 +42,7 @@ public class CreditOfferServiceImpl implements ICreditOfferService {
 
     @Override
     @Transactional
-    public CreditOfferGetAndUpdateDto createCreditOffer(CreditOfferCreateDto creditOfferCreateDto) {
+    public CreditOfferGetDto createCreditOffer(CreditOfferCreateDto creditOfferCreateDto) {
         final Client client = clientRepository.findById(creditOfferCreateDto.getClientId()).orElseThrow(NullPointerException::new);
         final Credit credit = creditRepository.findById(creditOfferCreateDto.getCreditId()).orElseThrow(NullPointerException::new);
         client.getCredits().add(credit);
@@ -50,49 +51,61 @@ public class CreditOfferServiceImpl implements ICreditOfferService {
         final CreditOffer creditOffer = creditOfferMapper.fromCreateDto(creditOfferCreateDto);
         creditOfferRepository.save(creditOffer);
 
+        paymentScheduleRepository.save(createPaymentSchedule(creditOffer));
+
+        return creditOfferMapper.toGetDto(creditOffer);
+    }
+
+    @Override
+    @Transactional
+    public CreditOfferGetDto updateCreditOffer(CreditOfferUpdateDto creditOfferUpdateDto) {
+        final CreditOffer creditOffer = creditOfferRepository.findById(creditOfferUpdateDto.getId()).orElseThrow(NullPointerException::new);
+        paymentScheduleRepository.deleteByCreditOffer(creditOffer);
+        creditOffer.setCreditAmount(creditOfferUpdateDto.getCreditAmount());
+        creditOfferRepository.saveAndFlush(creditOffer);
+        paymentScheduleRepository.save(createPaymentSchedule(creditOffer));
+
+        return creditOfferMapper.toGetDto(creditOffer);
+    }
+
+    @Override
+    public CreditOfferGetDto getCreditOffer(UUID id) {
+        final CreditOffer creditOffer = creditOfferRepository.findById(id).orElseThrow(NullPointerException::new);
+
+        return creditOfferMapper.toGetDto(creditOffer);
+    }
+
+    @Override
+    @Transactional
+    public void deleteCreditOffer(UUID id) {
+        final CreditOffer creditOffer = creditOfferRepository.findById(id).orElseThrow(NullPointerException::new);
+        final Client client = creditOffer.getClient();
+        client.getCredits().remove(creditOffer.getCredit());
+        clientRepository.saveAndFlush(client);
+        paymentScheduleRepository.deleteByCreditOffer(creditOffer);
+        creditOfferRepository.deleteById(id);
+    }
+
+    @Override
+    public List<CreditOfferGetDto> getAllCreditOffers() {
+        return creditOfferMapper.toGetDto(creditOfferRepository.findAll());
+    }
+
+    @Override
+    public List<CreditOfferGetDto> getAllCreditOffersWhereClientIs(UUID clientId) {
+        final Client client = clientRepository.findById(clientId).orElseThrow(NullPointerException::new);
+
+        return creditOfferMapper.toGetDto(creditOfferRepository.findAllByClientIs(client));
+    }
+
+    private PaymentSchedule createPaymentSchedule(CreditOffer creditOffer) {
         final PaymentSchedule paymentSchedule = new PaymentSchedule();
         paymentSchedule.setCreditOffer(creditOffer);
         paymentSchedule.setAmountPayment(0.0);
         paymentSchedule.setRepaymentAmountLoanBody(0.0);
         paymentSchedule.setRepaymentAmountPercentages(0.0);
         paymentSchedule.setIndebtedness(creditOffer.getCreditAmount());
-        paymentScheduleRepository.save(paymentSchedule);
 
-        return creditOfferMapper.toGetAndUpdateDto(creditOffer);
-    }
-
-    @Override
-    public CreditOfferGetAndUpdateDto updateCreditOffer(CreditOfferGetAndUpdateDto creditOfferGetAndUpdateDto) {
-        final CreditOffer creditOffer = creditOfferRepository.findById(creditOfferGetAndUpdateDto.getId()).orElseThrow(NullPointerException::new);
-        final Client client = clientRepository.findById(creditOfferGetAndUpdateDto.getClient().getId()).orElseThrow(NullPointerException::new);
-        final Credit credit = creditRepository.findById(creditOfferGetAndUpdateDto.getCredit().getId()).orElseThrow(NullPointerException::new);
-        creditOffer.setClient(client);
-        creditOffer.setCredit(credit);
-        creditOffer.setCreditAmount(creditOfferGetAndUpdateDto.getCreditAmount());
-        return null;
-    }
-
-    @Override
-    public CreditOfferGetAndUpdateDto getCreditOffer(UUID id) {
-        final CreditOffer creditOffer = creditOfferRepository.findById(id).orElseThrow(NullPointerException::new);
-
-        return creditOfferMapper.toGetAndUpdateDto(creditOffer);
-    }
-
-    @Override
-    public void deleteCreditOffer(UUID id) {
-
-    }
-
-    @Override
-    public List<CreditOfferGetAndUpdateDto> getAllCreditOffers() {
-        return creditOfferMapper.toGetDto(creditOfferRepository.findAll());
-    }
-
-    @Override
-    public List<CreditOfferGetAndUpdateDto> getAllCreditOffersWhereClientIs(UUID clientId) {
-        final Client client = clientRepository.findById(clientId).orElseThrow(NullPointerException::new);
-
-        return creditOfferMapper.toGetDto(creditOfferRepository.findAllByClientIs(client));
+        return paymentSchedule;
     }
 }

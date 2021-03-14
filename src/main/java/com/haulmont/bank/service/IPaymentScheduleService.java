@@ -1,22 +1,21 @@
 package com.haulmont.bank.service;
 
 import com.haulmont.bank.data.dto.create.PaymentScheduleCreateDto;
-import com.haulmont.bank.data.dto.get.PaymentScheduleGetAndUpdateDto;
+import com.haulmont.bank.data.dto.get.PaymentScheduleGetDto;
+import com.haulmont.bank.exception.PaymentScheduleException;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface IPaymentScheduleService {
 
-    PaymentScheduleGetAndUpdateDto createPaymentSchedule(PaymentScheduleCreateDto paymentScheduleCreateDto) throws IllegalAccessException;
+    PaymentScheduleGetDto createPaymentSchedule(PaymentScheduleCreateDto paymentScheduleCreateDto) throws PaymentScheduleException;
 
-    PaymentScheduleGetAndUpdateDto updatePaymentSchedule(PaymentScheduleGetAndUpdateDto paymentScheduleGetAndUpdateDto);
-
-    PaymentScheduleGetAndUpdateDto getPaymentSchedule(UUID id);
+    PaymentScheduleGetDto getPaymentSchedule(UUID id);
 
     void deletePaymentSchedule(UUID id);
 
-    List<PaymentScheduleGetAndUpdateDto> getAllPaymentSchedules();
+    List<PaymentScheduleGetDto> getAllPaymentSchedules();
 
-    List<PaymentScheduleGetAndUpdateDto> getAllPaymentSchedulesWhereClientAndCreditIs(UUID clientId, UUID creditId);
+    List<PaymentScheduleGetDto> getAllPaymentSchedulesWhereClientAndCreditIs(UUID clientId, UUID creditId);
 }
