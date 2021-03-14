@@ -8,32 +8,26 @@ import {Observable} from "rxjs";
 })
 export class PaymentScheduleService {
 
-  private BASE_PAYMENT_SCHEDULE_URL = 'http://localhost:8080/api/v1/paymentschedule';
-
   constructor(private http: HttpClient) {
   }
 
   public createPaymentSchedule(paymentSchedule: PaymentScheduleCreate): Observable<PaymentSchedule> {
-    return this.http.post<PaymentSchedule>(this.BASE_PAYMENT_SCHEDULE_URL, paymentSchedule);
-  }
-
-  public updatePaymentSchedule(newPaymentSchedule: PaymentSchedule): Observable<PaymentSchedule> {
-    return this.http.put<PaymentSchedule>(this.BASE_PAYMENT_SCHEDULE_URL, newPaymentSchedule);
+    return this.http.post<PaymentSchedule>(`/api/payment-schedule`, paymentSchedule);
   }
 
   public getPaymentSchedule(paymentScheduleId: string): Observable<PaymentSchedule> {
-    return this.http.get<PaymentSchedule>(this.BASE_PAYMENT_SCHEDULE_URL + `\\${paymentScheduleId}`);
+    return this.http.get<PaymentSchedule>(`/api/payment-schedule/${paymentScheduleId}`);
   }
 
   public deletePaymentSchedule(paymentScheduleId: string): Observable<void> {
-    return this.http.delete<void>(this.BASE_PAYMENT_SCHEDULE_URL + `${paymentScheduleId}`);
+    return this.http.delete<void>(`/api/payment-schedule/${paymentScheduleId}`);
   }
 
   public getAllPaymentSchedules(): Observable<PaymentSchedule[]> {
-    return this.http.get<PaymentSchedule[]>(this.BASE_PAYMENT_SCHEDULE_URL);
+    return this.http.get<PaymentSchedule[]>(`/api/payment-schedule`);
   }
 
   public getAllPaymentSchedulesWhereClientAndCreditIs(clientId: string, creditId: string): Observable<PaymentSchedule[]> {
-    return this.http.get<PaymentSchedule[]>(this.BASE_PAYMENT_SCHEDULE_URL + `\\all\\${clientId}\\${creditId}`);
+    return this.http.get<PaymentSchedule[]>(`/api/payment-schedule/all/${clientId}/${creditId}`);
   }
 }

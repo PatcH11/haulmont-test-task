@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Client, ClientCreate} from "../models/client";
+import {Client, ClientCreate, ClientUpdate} from "../models/client";
 import {Observable} from "rxjs";
 
 @Injectable({
@@ -8,28 +8,26 @@ import {Observable} from "rxjs";
 })
 export class ClientService {
 
-  private BASE_CLIENT_URL = 'http://localhost:8080/api/v1/client';
-
   constructor(private http: HttpClient) {
   }
 
   public createClient(client: ClientCreate): Observable<Client> {
-    return this.http.post<Client>(this.BASE_CLIENT_URL, client)
+    return this.http.post<Client>(`/api/client`, client)
   }
 
-  public updateClient(newClient: Client): Observable<Client> {
-    return this.http.put<Client>(this.BASE_CLIENT_URL, newClient);
+  public updateClient(newClient: ClientUpdate): Observable<Client> {
+    return this.http.put<Client>(`/api/client`, newClient);
   }
 
   public getClient(clientId: string): Observable<Client> {
-    return this.http.get<Client>(this.BASE_CLIENT_URL + `\\${clientId}`);
+    return this.http.get<Client>(`/api/client/${clientId}`);
   }
 
   public deleteClient(clientId: string): Observable<void> {
-    return this.http.delete<void>(this.BASE_CLIENT_URL + `\\${clientId}`);
+    return this.http.delete<void>(`/api/client/${clientId}`);
   }
 
   public getAllClients(): Observable<Client[]> {
-    return this.http.get<Client[]>(this.BASE_CLIENT_URL);
+    return this.http.get<Client[]>(`/api/client`);
   }
 }
