@@ -1,10 +1,10 @@
 package com.haulmont.bank.controller;
 
 import com.haulmont.bank.data.dto.create.ClientCreateDto;
-import com.haulmont.bank.data.dto.get.ClientGetAndUpdateDto;
+import com.haulmont.bank.data.dto.get.ClientGetDto;
+import com.haulmont.bank.data.dto.update.ClientUpdateDto;
 import com.haulmont.bank.service.IClientService;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,10 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.UUID;
 
-@CrossOrigin
 @RestController
 @RequestMapping(
-        path = "api/v1/client",
+        path = "/api/client",
         produces = MediaType.APPLICATION_JSON_VALUE
 )
 public class ClientController {
@@ -32,17 +31,17 @@ public class ClientController {
     }
 
     @PostMapping
-    public ClientGetAndUpdateDto createClient(@RequestBody ClientCreateDto clientCreateDto) {
+    public ClientGetDto createClient(@RequestBody ClientCreateDto clientCreateDto) {
         return clientService.createClient(clientCreateDto);
     }
 
     @PutMapping
-    public ClientGetAndUpdateDto updateClient(@RequestBody ClientGetAndUpdateDto clientGetAndUpdateDto) {
-        return clientService.updateClient(clientGetAndUpdateDto);
+    public ClientGetDto updateClient(@RequestBody ClientUpdateDto clientUpdateDto) {
+        return clientService.updateClient(clientUpdateDto);
     }
 
     @GetMapping("/{id}")
-    public ClientGetAndUpdateDto getClient(@PathVariable UUID id) {
+    public ClientGetDto getClient(@PathVariable UUID id) {
         return clientService.getClient(id);
     }
 
@@ -52,7 +51,7 @@ public class ClientController {
     }
 
     @GetMapping
-    public List<ClientGetAndUpdateDto> getAllClients() {
+    public List<ClientGetDto> getAllClients() {
         return clientService.getAllClients();
     }
 }

@@ -1,10 +1,10 @@
 package com.haulmont.bank.controller;
 
 import com.haulmont.bank.data.dto.create.CreditCreateDto;
-import com.haulmont.bank.data.dto.get.CreditGetAndUpdateDto;
+import com.haulmont.bank.data.dto.get.CreditGetDto;
+import com.haulmont.bank.data.dto.update.CreditUpdateDto;
 import com.haulmont.bank.service.ICreditService;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,10 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.UUID;
 
-@CrossOrigin
 @RestController
 @RequestMapping(
-        path = "api/v1/credit",
+        path = "/api/credit",
         produces = MediaType.APPLICATION_JSON_VALUE
 )
 public class CreditController {
@@ -32,17 +31,17 @@ public class CreditController {
     }
 
     @PostMapping
-    public CreditGetAndUpdateDto createCredit(@RequestBody CreditCreateDto creditDto) {
+    public CreditGetDto createCredit(@RequestBody CreditCreateDto creditDto) {
         return creditService.createCredit(creditDto);
     }
 
     @PutMapping
-    public CreditGetAndUpdateDto updateCredit(@RequestBody CreditGetAndUpdateDto creditGetAndUpdateDto) {
-        return creditService.updateCredit(creditGetAndUpdateDto);
+    public CreditGetDto updateCredit(@RequestBody CreditUpdateDto creditUpdateDto) {
+        return creditService.updateCredit(creditUpdateDto);
     }
 
     @GetMapping("/{id}")
-    public CreditGetAndUpdateDto getCredit(@PathVariable UUID id) {
+    public CreditGetDto getCredit(@PathVariable UUID id) {
         return creditService.getCredit(id);
     }
 
@@ -52,12 +51,12 @@ public class CreditController {
     }
 
     @GetMapping
-    public List<CreditGetAndUpdateDto> getAllCredits() {
+    public List<CreditGetDto> getAllCredits() {
         return creditService.getAllCredits();
     }
 
     @GetMapping("/all/{clientId}")
-    public List<CreditGetAndUpdateDto> getAllCreditWhereClientIs(@PathVariable UUID clientId) {
+    public List<CreditGetDto> getAllCreditWhereClientIs(@PathVariable UUID clientId) {
         return creditService.getAllCreditsWhereClientIs(clientId);
     }
 }
