@@ -23,7 +23,7 @@ public class Credit {
     @Column(name = "credit_id")
     private UUID id;
 
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     private String name;
 
     @Column(name = "loan_limit")

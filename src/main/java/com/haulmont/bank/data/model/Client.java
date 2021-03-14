@@ -35,13 +35,13 @@ public class Client {
     @Column(name = "patronymic")
     private String patronymic;
 
-    @Column(name = "phone_number")
+    @Column(name = "phone_number", unique = true)
     private String phoneNumber;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
-    @Column(name = "passport_number")
+    @Column(name = "passport_number", unique = true)
     private Integer passportNumber;
 
     @ManyToMany(cascade = {CascadeType.ALL})
