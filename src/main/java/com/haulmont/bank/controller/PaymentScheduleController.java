@@ -2,10 +2,8 @@ package com.haulmont.bank.controller;
 
 import com.haulmont.bank.data.dto.create.PaymentScheduleCreateDto;
 import com.haulmont.bank.data.dto.get.PaymentScheduleGetDto;
-import com.haulmont.bank.exception.PaymentScheduleException;
 import com.haulmont.bank.service.IPaymentScheduleService;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,18 +28,13 @@ public class PaymentScheduleController {
     }
 
     @PostMapping
-    public PaymentScheduleGetDto createPaymentSchedule(@RequestBody PaymentScheduleCreateDto paymentScheduleCreateDto) throws PaymentScheduleException {
+    public PaymentScheduleGetDto createPaymentSchedule(@RequestBody PaymentScheduleCreateDto paymentScheduleCreateDto) {
         return paymentScheduleService.createPaymentSchedule(paymentScheduleCreateDto);
     }
 
     @GetMapping("/{id}")
     public PaymentScheduleGetDto getPaymentSchedule(@PathVariable UUID id) {
         return paymentScheduleService.getPaymentSchedule(id);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deletePaymentSchedule(@PathVariable UUID id) {
-        paymentScheduleService.deletePaymentSchedule(id);
     }
 
     @GetMapping
