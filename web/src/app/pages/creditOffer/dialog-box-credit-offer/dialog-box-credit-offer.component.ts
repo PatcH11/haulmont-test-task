@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit, Optional} from '@angular/core';
-import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {CreditOffer} from "../../../models/creditOffer";
 import {Client} from "../../../models/client";
@@ -31,10 +31,34 @@ export class DialogBoxCreditOfferComponent implements OnInit {
     this.action = this.local_data.action;
   }
 
+  get client() {
+    return this.creditOfferForm.get('client') as FormControl;
+  }
+
+  get creditAmount() {
+    return this.creditOfferForm.get('creditAmount') as FormControl;
+  }
+
   ngOnInit(): void {
-    this.buildForm();
+
     this.getAllClients();
     this.getAllCredits();
+
+    this.creditOfferForm = new FormGroup({
+      client: new FormControl(undefined, [Validators.required]),
+      credit: new FormControl(undefined, [Validators.required]),
+      creditAmount: new FormControl(undefined)
+    });
+
+    this.client.valueChanges.subscribe(checked => {
+      if (checked) {
+        const validators = [Validators.required, Validators.pattern("^\\d+$"), Validators.min(1), Validators.max(this.local_data.credit.loanLimit)];
+        this.creditAmount.setValidators(validators);
+      } else {
+        this.creditAmount.setValidators(null);
+      }
+      this.creditOfferForm.updateValueAndValidity();
+    });
   }
 
   getAllClients() {
@@ -65,11 +89,11 @@ export class DialogBoxCreditOfferComponent implements OnInit {
     this.dialogRef.close({event: 'Cancel'});
   }
 
-  private buildForm() {
-    this.creditOfferForm = this.formBuilder.group({
-      client: this.formBuilder.control(undefined, [Validators.required]),
-      credit: this.formBuilder.control(undefined, [Validators.required]),
-      creditAmount: this.formBuilder.control(undefined, [Validators.required, Validators.pattern("^\\d+$"), Validators.min(1)])
-    });
-  }
+  // private buildForm() {
+  //   this.creditOfferForm = this.formBuilder.group({
+  //     client: this.formBuilder.control(undefined, [Validators.required]),
+  //     credit: this.formBuilder.control(undefined, [Validators.required]),
+  //     creditAmount: this.formBuilder.control(undefined, [Validators.required, Validators.pattern("^\\d+$"), Validators.min(1), Validators.max(this.local_data.credit.loanLimit)])
+  //   });
+  // }
 }

@@ -18,7 +18,7 @@ import {DialogBoxPaymentScheduleComponent} from "../dialog-box-payment-schedule/
 })
 export class PaymentSchedulePageComponent implements OnInit {
 
-  displayedColumns: string[] = ['date', 'amountPayment', 'repaymentAmountLoanBody', 'repaymentAmountPercentages', 'indebtedness'];
+  displayedColumns: string[] = ['date', 'amountPayment', 'repaymentAmountLoanBody', 'repaymentAmountPercentages', 'indebtedness', 'action'];
   dataSource: PaymentSchedule[];
 
   clients: Client[];
@@ -45,16 +45,6 @@ export class PaymentSchedulePageComponent implements OnInit {
     this.clientService.getAllClients().subscribe(
       res => {
         this.clients = res;
-      }, error => {
-        console.log('gg');
-      }
-    );
-  }
-
-  getAllCreditOffersWhereClientIs(clientId: string) {
-    this.creditOfferService.getAllCreditOffersWhereClientIs(clientId).subscribe(
-      res => {
-        this.creditOffers = res;
       }, error => {
         console.log('gg');
       }
@@ -93,6 +83,8 @@ export class PaymentSchedulePageComponent implements OnInit {
         console.log('bad');
       }
     );
+
+    window.location.reload();
   }
 
   openDialog(action, obj) {
@@ -103,33 +95,10 @@ export class PaymentSchedulePageComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result.event == 'Add') {
-        this.addRowData(result.data);
+      if (result.event == 'Delete') {
+        this.deletePaymentSchedule(result.data);
       }
-      // else if (result.event == 'Update') {
-      //   this.updateRowData(result.data);
-      // } else if (result.event == 'Delete') {
-      //   this.deleteRowData(result.data);
-      // }
     });
-  }
-
-  addRowData(row_obj) {
-    let paymentSchedule = {
-      creditOfferId: row_obj.creditOffer.id
-    } as PaymentScheduleCreate;
-
-    this.paymentScheduleService.createPaymentSchedule(paymentSchedule).subscribe(
-      res => {
-        console.log(res);
-        console.log('Кредитное предложение добавлено!');
-      }, error => {
-        console.log(paymentSchedule);
-        console.log('Кредитное предложение не добавлен!');
-      }
-    );
-
-    window.location.reload();
   }
 
   onChange(newValue) {
@@ -137,39 +106,17 @@ export class PaymentSchedulePageComponent implements OnInit {
     this.client = newValue;
   }
 
-  // updateRowData(row_obj) {
-  //   let updateCreditOffer = {
-  //     id: row_obj.id,
-  //     client: row_obj.client,
-  //     credit: row_obj.credit,
-  //     creditAmount: row_obj.creditAmount,
-  //   } as CreditOffer;
-  //
-  //   this.creditOfferService.updateCreditOffer(updateCreditOffer).subscribe(
-  //     res => {
-  //       console.log('Кредитное предложение обновлено!');
-  //       return true;
-  //     }, error => {
-  //       console.log(updateCreditOffer);
-  //       console.log('Кредитное предложение не обновлено!');
-  //       return false;
-  //     }
-  //   );
-  //
-  //   this.table.renderRows();
-  // }
-  //
-  // deleteRowData(row_obj) {
-  //   this.creditOfferService.deleteCreditOffer(row_obj.id).subscribe(
-  //     res => {
-  //       console.log('Кредит удален!');
-  //       return true;
-  //     }, error => {
-  //       console.log('Кредит не удален!');
-  //       return false;
-  //     }
-  //   );
-  //
-  //   this.table.renderRows();
-  // }
+  deletePaymentSchedule(row_obj) {
+    this.paymentScheduleService.deletePaymentSchedule(row_obj.id).subscribe(
+      res => {
+        console.log('График удален!');
+        return true;
+      }, error => {
+        console.log('График не удален!');
+        return false;
+      }
+    );
+
+    window.location.reload();
+  }
 }

@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {CreditOffer, CreditOfferCreate} from "../../../models/creditOffer";
+import {CreditOffer, CreditOfferCreate, CreditOfferUpdate} from "../../../models/creditOffer";
 import {MatTable} from "@angular/material/table";
 import {MatDialog} from "@angular/material/dialog";
 import {CreditOfferService} from "../../../services/credit-offer.service";
@@ -78,10 +78,8 @@ export class CreditOfferPageComponent implements OnInit {
   updateRowData(row_obj) {
     let updateCreditOffer = {
       id: row_obj.id,
-      client: row_obj.client,
-      credit: row_obj.credit,
-      creditAmount: row_obj.creditAmount,
-    } as CreditOffer;
+      creditAmount: row_obj.creditAmount
+    } as CreditOfferUpdate;
 
     this.creditOfferService.updateCreditOffer(updateCreditOffer).subscribe(
       res => {

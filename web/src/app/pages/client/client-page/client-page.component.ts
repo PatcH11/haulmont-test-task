@@ -1,9 +1,9 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {MatTable} from "@angular/material/table";
-import {DialogBoxClientComponent} from "../dialog-box-client/dialog-box-client.component";
 import {ClientService} from "../../../services/client.service";
-import {Client, ClientCreate} from "../../../models/client";
+import {Client, ClientCreate, ClientUpdate} from "../../../models/client";
+import {DialogBoxPaymentScheduleComponent} from "../../paymentSchedule/dialog-box-payment-schedule/dialog-box-payment-schedule.component";
 
 @Component({
   selector: 'app-client-page',
@@ -39,7 +39,7 @@ export class ClientPageComponent implements OnInit {
 
   openDialog(action, obj) {
     obj.action = action;
-    const dialogRef = this.dialog.open(DialogBoxClientComponent, {
+    const dialogRef = this.dialog.open(DialogBoxPaymentScheduleComponent, {
       width: '350px',
       data: obj
     });
@@ -86,7 +86,7 @@ export class ClientPageComponent implements OnInit {
       phoneNumber: row_obj.phoneNumber,
       email: row_obj.email,
       passportNumber: row_obj.passportNumber
-    } as Client;
+    } as ClientUpdate;
 
     this.clientService.updateClient(updateClient).subscribe(
       res => {

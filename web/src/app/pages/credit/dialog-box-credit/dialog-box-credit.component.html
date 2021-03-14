@@ -11,7 +11,7 @@
       </mat-form-field>
     </p>
     <p>
-      <mat-form-field appearance="legacy">
+      <mat-form-field *ngIf="action === 'Add'" appearance="legacy">
         <mat-label>Лимит кредита</mat-label>
         <label>
           <input [(ngModel)]="local_data.loanLimit" formControlName="loanLimit" matInput
@@ -21,7 +21,7 @@
       </mat-form-field>
     </p>
     <p>
-      <mat-form-field appearance="legacy">
+      <mat-form-field *ngIf="action === 'Add'" appearance="legacy">
         <mat-label>Ставка кредита</mat-label>
         <label>
           <input #input [(ngModel)]="local_data.interestRate" formControlName="interestRate" matInput

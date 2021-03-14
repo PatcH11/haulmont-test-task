@@ -61,6 +61,13 @@
         <td *matCellDef="let element" mat-cell> {{element.indebtedness}} </td>
       </ng-container>
 
+      <ng-container matColumnDef="action">
+        <th *matHeaderCellDef mat-header-cell> Действия</th>
+        <td *matCellDef="let element" class="action-link" mat-cell>
+          <button (click)="openDialog('Delete',element)" color="warn" mat-raised-button>Удалить</button>
+        </td>
+      </ng-container>
+
       <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
       <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
     </table>

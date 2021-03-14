@@ -1,1 +1,10 @@
-<p>dialog-box-payment-schedule works!</p>
+<h1 class="text-center" mat-dialog-title><strong>{{action}}</strong></h1>
+<div [formGroup]="paymentSchedule" class="text-center" mat-dialog-content>
+  <ng-template>
+    Уверены, что ходите удалить?
+  </ng-template>
+</div>
+<div class="justify-content-center" mat-dialog-actions>
+  <button (click)="doAction()" mat-button>{{action}}</button>
+  <button (click)="closeDialog()" color="warn" mat-button mat-flat-button>Cancel</button>
+</div>

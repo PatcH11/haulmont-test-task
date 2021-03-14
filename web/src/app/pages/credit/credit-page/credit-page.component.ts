@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatTable} from "@angular/material/table";
-import {Credit, CreditCreate} from "../../../models/credit";
+import {Credit, CreditCreate, CreditUpdate} from "../../../models/credit";
 import {MatDialog} from "@angular/material/dialog";
 import {CreditService} from "../../../services/credit.service";
 import {DialogBoxCreditComponent} from "../dialog-box-credit/dialog-box-credit.component";
@@ -78,10 +78,8 @@ export class CreditPageComponent implements OnInit {
   updateRowData(row_obj) {
     let updateCredit = {
       id: row_obj.id,
-      name: row_obj.name,
-      loanLimit: row_obj.loanLimit,
-      interestRate: row_obj.interestRate,
-    } as Credit;
+      name: row_obj.name
+    } as CreditUpdate;
 
     this.creditService.updateCredit(updateCredit).subscribe(
       res => {
