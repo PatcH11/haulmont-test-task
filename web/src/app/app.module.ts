@@ -29,7 +29,6 @@ import {DialogBoxCreditComponent} from './pages/credit/dialog-box-credit/dialog-
 import {CreditOfferPageComponent} from './pages/creditOffer/credit-offer-page/credit-offer-page.component';
 import {DialogBoxCreditOfferComponent} from './pages/creditOffer/dialog-box-credit-offer/dialog-box-credit-offer.component';
 import {PaymentSchedulePageComponent} from './pages/paymentSchedule/payment-schedule-page/payment-schedule-page.component';
-import {DialogBoxPaymentScheduleComponent} from './pages/paymentSchedule/dialog-box-payment-schedule/dialog-box-payment-schedule.component';
 
 const appRoutes: Routes = [
   {
@@ -66,8 +65,7 @@ const appRoutes: Routes = [
     DialogBoxCreditComponent,
     CreditOfferPageComponent,
     DialogBoxCreditOfferComponent,
-    PaymentSchedulePageComponent,
-    DialogBoxPaymentScheduleComponent
+    PaymentSchedulePageComponent
   ],
   imports: [
     BrowserModule,
