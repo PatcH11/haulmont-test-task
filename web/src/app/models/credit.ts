@@ -4,6 +4,11 @@ export interface CreditCreate {
   interestRate: number;
 }
 
+export interface CreditUpdate {
+  id: string;
+  name: string;
+}
+
 export interface Credit {
   id: string;
   name: string;

@@ -7,6 +7,11 @@ export interface CreditOfferCreate {
   creditAmount: number
 }
 
+export interface CreditOfferUpdate {
+  id: string;
+  creditAmount: number;
+}
+
 export interface CreditOffer {
   id: string;
   client: Client;
