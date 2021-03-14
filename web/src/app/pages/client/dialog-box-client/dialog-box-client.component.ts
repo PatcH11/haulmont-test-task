@@ -17,7 +17,6 @@ export class DialogBoxClientComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<DialogBoxClientComponent>,
-    //@Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public data: Client) {
     console.log(data);
     this.local_data = {...data};

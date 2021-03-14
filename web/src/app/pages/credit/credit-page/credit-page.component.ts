@@ -46,16 +46,16 @@ export class CreditPageComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result.event == 'Add') {
-        this.addRowData(result.data);
+        this.createCredit(result.data);
       } else if (result.event == 'Update') {
-        this.updateRowData(result.data);
+        this.updateCredit(result.data);
       } else if (result.event == 'Delete') {
-        this.deleteRowData(result.data);
+        this.deleteCredit(result.data);
       }
     });
   }
 
-  addRowData(row_obj) {
+  createCredit(row_obj) {
     let credit = {
       name: row_obj.name,
       loanLimit: row_obj.loanLimit,
@@ -75,7 +75,7 @@ export class CreditPageComponent implements OnInit {
     window.location.reload();
   }
 
-  updateRowData(row_obj) {
+  updateCredit(row_obj) {
     let updateCredit = {
       id: row_obj.id,
       name: row_obj.name
@@ -95,7 +95,7 @@ export class CreditPageComponent implements OnInit {
     window.location.reload();
   }
 
-  deleteRowData(row_obj) {
+  deleteCredit(row_obj) {
     this.creditService.deleteCredit(row_obj.id).subscribe(
       res => {
         console.log('Кредит удален!');

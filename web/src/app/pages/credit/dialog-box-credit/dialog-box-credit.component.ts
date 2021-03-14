@@ -11,13 +11,13 @@ import {Credit} from "../../../models/credit";
 export class DialogBoxCreditComponent implements OnInit {
 
   creditForm: FormGroup;
+  creditUpdateForm: FormGroup;
   action: string;
   local_data: any;
 
   constructor(
     private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<DialogBoxCreditComponent>,
-    //@Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public data: Credit) {
     console.log(data);
     this.local_data = {...data};
@@ -41,6 +41,10 @@ export class DialogBoxCreditComponent implements OnInit {
       name: this.formBuilder.control(undefined, [Validators.required, Validators.pattern("^[А-Яа-я]+$")]),
       loanLimit: this.formBuilder.control(undefined, [Validators.required, Validators.pattern("^\\d+$"), Validators.min(100000), Validators.max(10000000)]),
       interestRate: this.formBuilder.control(undefined, [Validators.required, Validators.pattern("^\\d+$"), Validators.min(1), Validators.max(100), Validators.minLength(1), Validators.maxLength(3)])
+    });
+
+    this.creditUpdateForm = this.formBuilder.group({
+      name: this.formBuilder.control(undefined, [Validators.required, Validators.pattern("^[А-Яа-я]+$")])
     });
   }
 }

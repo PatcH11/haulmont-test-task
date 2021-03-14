@@ -15,6 +15,7 @@ import {CreditService} from "../../../services/credit.service";
 export class DialogBoxCreditOfferComponent implements OnInit {
 
   creditOfferForm: FormGroup;
+  creditOfferUpdateForm: FormGroup;
   action: string;
   local_data: any;
 
@@ -41,8 +42,19 @@ export class DialogBoxCreditOfferComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.getAllClients();
     this.getAllCredits();
+
+    this.creditOfferUpdateForm = new FormGroup({
+      creditAmount: new FormControl(undefined)
+    })
+
+    if (this.action === 'Update') {
+      const validators = [Validators.required, Validators.pattern("^\\d+$"), Validators.min(1), Validators.max(this.local_data.credit.loanLimit)];
+      this.creditOfferUpdateForm.get('creditAmount').setValidators(validators);
+    } else {
+      this.creditOfferUpdateForm.get('creditAmount').setValidators(null);
+    }
+    this.creditOfferUpdateForm.updateValueAndValidity();
 
     this.creditOfferForm = new FormGroup({
       client: new FormControl(undefined, [Validators.required]),
@@ -89,11 +101,10 @@ export class DialogBoxCreditOfferComponent implements OnInit {
     this.dialogRef.close({event: 'Cancel'});
   }
 
-  // private buildForm() {
-  //   this.creditOfferForm = this.formBuilder.group({
-  //     client: this.formBuilder.control(undefined, [Validators.required]),
-  //     credit: this.formBuilder.control(undefined, [Validators.required]),
-  //     creditAmount: this.formBuilder.control(undefined, [Validators.required, Validators.pattern("^\\d+$"), Validators.min(1), Validators.max(this.local_data.credit.loanLimit)])
-  //   });
-  // }
+  onChange(newValue) {
+    console.log(newValue);
+    this.clients = undefined;
+    this.local_data.client = undefined;
+    this.local_data.credit = newValue;
+  }
 }

@@ -46,16 +46,16 @@ export class CreditOfferPageComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result.event == 'Add') {
-        this.addRowData(result.data);
+        this.createCreditOffer(result.data);
       } else if (result.event == 'Update') {
-        this.updateRowData(result.data);
+        this.updateCreditOffer(result.data);
       } else if (result.event == 'Delete') {
-        this.deleteRowData(result.data);
+        this.deleteCreditOffer(result.data);
       }
     });
   }
 
-  addRowData(row_obj) {
+  createCreditOffer(row_obj) {
     let creditOffer = {
       clientId: row_obj.client.id,
       creditId: row_obj.credit.id,
@@ -68,14 +68,14 @@ export class CreditOfferPageComponent implements OnInit {
         console.log('Кредитное предложение добавлено!');
       }, error => {
         console.log(creditOffer);
-        console.log('Кредитное предложение не добавлен!');
+        console.log('Кредитное предложение не добавлено!');
       }
     );
 
     window.location.reload();
   }
 
-  updateRowData(row_obj) {
+  updateCreditOffer(row_obj) {
     let updateCreditOffer = {
       id: row_obj.id,
       creditAmount: row_obj.creditAmount
@@ -95,13 +95,13 @@ export class CreditOfferPageComponent implements OnInit {
     window.location.reload();
   }
 
-  deleteRowData(row_obj) {
+  deleteCreditOffer(row_obj) {
     this.creditOfferService.deleteCreditOffer(row_obj.id).subscribe(
       res => {
-        console.log('Кредит удален!');
+        console.log('Кредитное предложение удалено!');
         return true;
       }, error => {
-        console.log('Кредит не удален!');
+        console.log('Кредитное предложение не удалено!');
         return false;
       }
     );

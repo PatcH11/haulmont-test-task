@@ -1,19 +1,21 @@
 <h1 mat-dialog-title class="text-center"><strong>{{action}}</strong></h1>
-<form [formGroup]="creditOfferForm" class="text-center" mat-dialog-content>
+<form [formGroup]="creditOfferForm" class="text-center" mat-dialog-content *ngIf="action != 'Update'">
   <div *ngIf="action != 'Delete'; else elseTemplate">
     <div class="container">
       <h1>Шаг 1. Выбор кредита </h1>
       <mat-form-field appearance="fill" style="width: 100%">
         <mat-label>Кредиты</mat-label>
-        <mat-select [(ngModel)]="local_data.credit" formControlName="credit">
+        <mat-select [(ngModel)]="local_data.credit" formControlName="credit" (ngModelChange)="onChange($event)">
           <mat-option></mat-option>
           <mat-option *ngFor="let option of credits"
-                      [value]="option">{{ option.name }}</mat-option>
+                      [value]="option"
+                      (click)="getAllClients()">{{ option.name }}</mat-option>
         </mat-select>
+        <mat-hint>Значение нельзя будет обновить</mat-hint>
       </mat-form-field>
     </div>
     <br>
-    <div *ngIf="local_data.credit !== undefined" class="container">
+    <div *ngIf="local_data.credit !== undefined && clients !== undefined" class="container">
       <h1>Шаг 2. Выбор клиента </h1>
       <mat-form-field appearance="fill" style="width: 100%">
         <mat-label>Клиенты</mat-label>
@@ -22,12 +24,13 @@
           <mat-option *ngFor="let option of clients"
                       [value]="option">{{ option.lastName + ' ' + option.firstName + ' ' + option.patronymic }}</mat-option>
         </mat-select>
+        <mat-hint>Значение нельзя будет обновить</mat-hint>
       </mat-form-field>
     </div>
     <br>
     <div *ngIf="local_data.client !== undefined" class="container">
       <h1>Шаг 3. Ввод суммы кредита </h1>
-      <mat-form-field appearance="legacy">
+      <mat-form-field appearance="legacy" style="width: 100%">
         <mat-label>Сумма кредита</mat-label>
         <label style="width: 100%">
           <input [(ngModel)]="local_data.creditAmount" formControlName="creditAmount" matInput
@@ -41,9 +44,23 @@
     Уверены, что ходите удалить <b>{{local_data.name}}</b>?
   </ng-template>
 </form>
+<div [formGroup]="creditOfferUpdateForm" mat-dialog-content class="text-center" *ngIf="action === 'Update'">
+  <p>
+    <mat-form-field appearance="legacy">
+      <mat-label>Сумма кредита</mat-label>
+      <label style="width: 100%">
+        <input [(ngModel)]="local_data.creditAmount" formControlName="creditAmount" matInput
+               placeholder="Введите сумму кредита">
+      </label>
+      <mat-error *ngIf="creditOfferUpdateForm.get('creditAmount').invalid">creditAmount</mat-error>
+    </mat-form-field>
+  </p>
+</div>
 <div mat-dialog-actions class="justify-content-center">
   <button (click)="doAction()" mat-button *ngIf="action === 'Delete'">{{action}}</button>
-  <button (click)="doAction()" mat-button *ngIf="action !== 'Delete'"
+  <button (click)="doAction()" mat-button *ngIf="action === 'Add'"
           [disabled]="creditOfferForm.invalid">{{action}}</button>
+  <button (click)="doAction()" mat-button *ngIf="action === 'Update'"
+          [disabled]="creditOfferUpdateForm.invalid">{{action}}</button>
   <button (click)="closeDialog()" color="warn" mat-button mat-flat-button>Cancel</button>
 </div>

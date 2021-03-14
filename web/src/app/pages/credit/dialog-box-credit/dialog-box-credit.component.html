@@ -1,5 +1,5 @@
 <h1 mat-dialog-title class="text-center"><strong>{{action}}</strong></h1>
-<div [formGroup]="creditForm" mat-dialog-content class="text-center">
+<div [formGroup]="creditForm" mat-dialog-content class="text-center" *ngIf="action != 'Update'">
   <div *ngIf="action != 'Delete'; else elseTemplate">
     <p>
       <mat-form-field appearance="legacy">
@@ -17,6 +17,7 @@
           <input [(ngModel)]="local_data.loanLimit" formControlName="loanLimit" matInput
                  placeholder="Введите лимит кредита">
         </label>
+        <mat-hint>Значение нельзя будет обновить</mat-hint>
         <mat-error *ngIf="creditForm.get('loanLimit').invalid">sloanLimit</mat-error>
       </mat-form-field>
     </p>
@@ -24,9 +25,10 @@
       <mat-form-field *ngIf="action === 'Add'" appearance="legacy">
         <mat-label>Ставка кредита</mat-label>
         <label>
-          <input #input [(ngModel)]="local_data.interestRate" formControlName="interestRate" matInput
+          <input [(ngModel)]="local_data.interestRate" formControlName="interestRate" matInput
                  placeholder="Введите ставку кредита">
         </label>
+        <mat-hint>Значение нельзя будет обновить</mat-hint>
         <mat-error *ngIf="creditForm.get('interestRate').invalid">interestRate</mat-error>
       </mat-form-field>
     </p>
@@ -35,9 +37,22 @@
     Уверены, что ходите удалить <b>{{local_data.name}}</b>?
   </ng-template>
 </div>
-<div mat-dialog-actions class="justify-content-center">
+<div [formGroup]="creditUpdateForm" mat-dialog-content class="text-center" *ngIf="action === 'Update'">
+  <p>
+    <mat-form-field appearance="legacy">
+      <mat-label>Название</mat-label>
+      <label>
+        <input [(ngModel)]="local_data.name" formControlName="name" matInput placeholder="Введите название кредита">
+      </label>
+      <mat-error *ngIf="creditUpdateForm.get('name').invalid">loanLimit</mat-error>
+    </mat-form-field>
+  </p>
+</div>
+<div mat-dialog-actions class=" justify-content-center">
   <button (click)="doAction()" mat-button *ngIf="action === 'Delete'">{{action}}</button>
-  <button (click)="doAction()" mat-button *ngIf="action !== 'Delete'"
+  <button (click)="doAction()" mat-button *ngIf="action === 'Add'"
           [disabled]="creditForm.invalid">{{action}}</button>
+  <button (click)="doAction()" mat-button *ngIf="action === 'Update'"
+          [disabled]="creditUpdateForm.invalid">{{action}}</button>
   <button (click)="closeDialog()" color="warn" mat-button mat-flat-button>Cancel</button>
 </div>
