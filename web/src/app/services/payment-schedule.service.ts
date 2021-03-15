@@ -19,10 +19,6 @@ export class PaymentScheduleService {
     return this.http.get<PaymentSchedule>(`/api/payment-schedule/${paymentScheduleId}`);
   }
 
-  public deletePaymentSchedule(paymentScheduleId: string): Observable<void> {
-    return this.http.delete<void>(`/api/payment-schedule/${paymentScheduleId}`);
-  }
-
   public getAllPaymentSchedules(): Observable<PaymentSchedule[]> {
     return this.http.get<PaymentSchedule[]>(`/api/payment-schedule`);
   }
