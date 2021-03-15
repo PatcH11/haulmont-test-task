@@ -4,7 +4,6 @@ import {MatTable} from "@angular/material/table";
 import {MatDialog} from "@angular/material/dialog";
 import {CreditOfferService} from "../../../services/credit-offer.service";
 import {DialogBoxCreditOfferComponent} from "../dialog-box-credit-offer/dialog-box-credit-offer.component";
-import {Credit} from "../../../models/credit";
 
 @Component({
   selector: 'app-credit-offer-page',

@@ -105,4 +105,20 @@ export class PaymentSchedulePageComponent implements OnInit {
   refresh() {
     this.getAllPaymentSchedules(this.client.id, this.credit.id);
   }
+
+  calculatePayments() {
+    return this.calculateAmountPayment() - this.getCreditAmount();
+  }
+
+  getCreditAmount() {
+    return this.dataSource[0].creditOffer.creditAmount
+  }
+
+  calculateAmountPayment() {
+    let sum = 0;
+    this.dataSource.forEach(value => {
+      sum = sum + value.amountPayment;
+    })
+    return sum;
+  }
 }

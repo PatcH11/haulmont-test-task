@@ -36,7 +36,7 @@
           <input [(ngModel)]="local_data.creditAmount" formControlName="creditAmount" matInput
                  placeholder="Введите сумму кредита">
         </label>
-        <mat-error *ngIf="creditOfferForm.get('creditAmount').invalid">creditAmount</mat-error>
+        <mat-error *ngIf="creditOfferForm.get('creditAmount').invalid">Поле недействительно</mat-error>
       </mat-form-field>
     </div>
   </div>
@@ -52,7 +52,7 @@
         <input [(ngModel)]="local_data.creditAmount" formControlName="creditAmount" matInput
                placeholder="Введите сумму кредита">
       </label>
-      <mat-error *ngIf="creditOfferUpdateForm.get('creditAmount').invalid">creditAmount</mat-error>
+      <mat-error *ngIf="creditOfferUpdateForm.get('creditAmount').invalid">Поле недействительно</mat-error>
     </mat-form-field>
   </p>
 </div>

@@ -39,7 +39,7 @@ export class DialogBoxCreditComponent implements OnInit {
   private buildForm() {
     this.creditForm = this.formBuilder.group({
       name: this.formBuilder.control(undefined, [Validators.required, Validators.pattern("^[А-Яа-я]+$")]),
-      loanLimit: this.formBuilder.control(undefined, [Validators.required, Validators.pattern("^\\d+$"), Validators.min(100000), Validators.max(10000000)]),
+      loanLimit: this.formBuilder.control(undefined, [Validators.required, Validators.pattern("^\\d+$"), Validators.min(10000), Validators.max(10000000)]),
       interestRate: this.formBuilder.control(undefined, [Validators.required, Validators.pattern("^\\d+$"), Validators.min(1), Validators.max(100), Validators.minLength(1), Validators.maxLength(3)])
     });
 

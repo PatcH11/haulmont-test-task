@@ -4,7 +4,6 @@ import {Credit, CreditCreate, CreditUpdate} from "../../../models/credit";
 import {MatDialog} from "@angular/material/dialog";
 import {CreditService} from "../../../services/credit.service";
 import {DialogBoxCreditComponent} from "../dialog-box-credit/dialog-box-credit.component";
-import {Client} from "../../../models/client";
 
 @Component({
   selector: 'app-credit-page',

@@ -14,7 +14,7 @@
       </mat-form-field>
     </div>
     <div class="p-2" *ngIf="credits !== undefined">
-      <h1>Шаг 2. Выберите кредит клиента, для которого хотите посмотртреть график платежей</h1>
+      <h1>Шаг 2. Выберите кредит клиента, для которого хотите посмотреть график платежей</h1>
       <mat-form-field appearance="fill" style="width: 25%">
         <mat-label>Кредиты</mat-label>
         <mat-select [(ngModel)]="credit" (ngModelChange)="onChangeCredit($event)">
@@ -34,7 +34,16 @@
       Внести
       платеж за кредит
     </button>
-    <h1 *ngIf="isLoanPaid">Поздравляем, Вы погасили кредит!</h1>
+    <div *ngIf="isLoanPaid" class="container text-center">
+      <div class="container text-primary">
+        <h1>Поздравляем, Вы погасили кредит!</h1>
+      </div>
+      <div class="container text-warning">
+        <h1>Сумма Вашего кредита: {{getCreditAmount()}}</h1>
+        <h1>Всего Вы выплатили: {{calculateAmountPayment()}}</h1>
+        <h1>Ваша переплата по кредиту: {{calculatePayments()}}</h1>
+      </div>
+    </div>
   </div>
   <br>
   <div class="container">

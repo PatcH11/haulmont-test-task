@@ -7,7 +7,7 @@
         <label>
           <input [(ngModel)]="local_data.lastName" formControlName="lastName" matInput placeholder="Введите фамилию">
         </label>
-        <mat-error *ngIf="clientForm.get('lastName').invalid">{{getErrorLastNameMessage()}}</mat-error>
+        <mat-error *ngIf="clientForm.get('lastName').invalid">Поле недействительно</mat-error>
       </mat-form-field>
     </p>
     <p>
@@ -16,7 +16,7 @@
         <label>
           <input [(ngModel)]="local_data.firstName" formControlName="firstName" matInput placeholder="Введите имя">
         </label>
-        <mat-error *ngIf="clientForm.get('firstName').invalid">{{getErrorFirstNameMessage()}}</mat-error>
+        <mat-error *ngIf="clientForm.get('firstName').invalid">Поле недействительно</mat-error>
       </mat-form-field>
     </p>
     <p>
@@ -26,17 +26,17 @@
           <input [(ngModel)]="local_data.patronymic" formControlName="patronymic" matInput
                  placeholder="Введите отчество">
         </label>
-        <mat-error *ngIf="clientForm.get('patronymic').invalid">{{getErrorPatronymicMessage()}}</mat-error>
+        <mat-error *ngIf="clientForm.get('patronymic').invalid">Поле недействительно</mat-error>
       </mat-form-field>
     </p>
     <p>
       <mat-form-field appearance="legacy">
         <mat-label>Номер телефона</mat-label>
         <label>
-          <input #input [(ngModel)]="local_data.phoneNumber" formControlName="phoneNumber" matInput maxlength="11"
+          <input [(ngModel)]="local_data.phoneNumber" formControlName="phoneNumber" matInput maxlength="11"
                  minlength="11" placeholder="Введите номер">
         </label>
-        <mat-error *ngIf="clientForm.get('phoneNumber').invalid">{{getErrorPatronymicMessage()}}</mat-error>
+        <mat-error *ngIf="clientForm.get('phoneNumber').invalid">Поле недействительно</mat-error>
       </mat-form-field>
     </p>
     <p>
@@ -45,17 +45,17 @@
         <label>
           <input [(ngModel)]="local_data.email" formControlName="email" matInput placeholder="pat@example.com">
         </label>
-        <mat-error *ngIf="clientForm.get('email').invalid">{{getErrorEmailMessage()}}</mat-error>
+        <mat-error *ngIf="clientForm.get('email').invalid">Поле недействительно</mat-error>
       </mat-form-field>
     </p>
     <p>
       <mat-form-field appearance="legacy">
         <mat-label>Номер паспорта</mat-label>
         <label>
-          <input #input [(ngModel)]="local_data.passportNumber" formControlName="passportNumber" matInput maxlength="6"
+          <input [(ngModel)]="local_data.passportNumber" formControlName="passportNumber" matInput maxlength="6"
                  minlength="6">
         </label>
-        <mat-error *ngIf="clientForm.get('passportNumber').invalid">{{getErrorPassportNumberMessage()}}</mat-error>
+        <mat-error *ngIf="clientForm.get('passportNumber').invalid">Поле недействительно</mat-error>
       </mat-form-field>
     </p>
   </div>

@@ -35,54 +35,6 @@ export class DialogBoxClientComponent implements OnInit {
     this.dialogRef.close({event: 'Cancel'});
   }
 
-  getErrorLastNameMessage() {
-    if (this.clientForm.controls['lastName'].hasError('required')) {
-      return 'Вы должны ввести значение';
-    }
-
-    return this.clientForm.controls['lastName'].hasError('lastName') ? 'Not a valid email' : '';
-  }
-
-  getErrorFirstNameMessage() {
-    if (this.clientForm.controls['firstName'].hasError('required')) {
-      return 'Вы должны ввести значение';
-    }
-
-    return this.clientForm.controls['firstName'].hasError('firstName') ? 'Not a valid email' : '';
-  }
-
-  getErrorPatronymicMessage() {
-    if (this.clientForm.controls['patronymic'].hasError('required')) {
-      return 'Вы должны ввести значение';
-    }
-
-    return this.clientForm.controls['patronymic'].hasError('patronymic') ? 'Not a valid email' : '';
-  }
-
-  getErrorPhoneNumberMessage() {
-    if (this.clientForm.controls['phoneNumber'].hasError('required')) {
-      return 'Вы должны ввести значение';
-    }
-
-    return this.clientForm.controls['phoneNumber'].hasError('phoneNumber') ? 'Not a valid email' : '';
-  }
-
-  getErrorEmailMessage() {
-    if (this.clientForm.controls['email'].hasError('required')) {
-      return 'Вы должны ввести значение';
-    }
-
-    return this.clientForm.controls['email'].hasError('email') ? 'Not a valid email' : '';
-  }
-
-  getErrorPassportNumberMessage() {
-    if (this.clientForm.controls['passportNumber'].hasError('required')) {
-      return 'Вы должны ввести значение';
-    }
-
-    return this.clientForm.controls['passportNumber'].hasError('passportNumber') ? 'Not a valid email' : '';
-  }
-
   private buildForm() {
     this.clientForm = this.formBuilder.group({
       firstName: this.formBuilder.control(undefined, [Validators.required, Validators.pattern("^[А-Яа-я]+$")]),
