@@ -74,7 +74,7 @@ export class DialogBoxCreditOfferComponent implements OnInit {
   }
 
   getAllClients() {
-    this.clientService.getAllClients().subscribe(
+    this.clientService.getAllClientsWhereCreditsNotContains(this.local_data.credit.id).subscribe(
       res => {
         this.clients = res;
       }, error => {

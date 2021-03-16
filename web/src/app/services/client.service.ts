@@ -30,4 +30,8 @@ export class ClientService {
   public getAllClients(): Observable<Client[]> {
     return this.http.get<Client[]>(`/api/client`);
   }
+
+  public getAllClientsWhereCreditsNotContains(creditId: string): Observable<Client[]> {
+    return this.http.get<Client[]>(`/api/client/all/not/${creditId}`);
+  }
 }

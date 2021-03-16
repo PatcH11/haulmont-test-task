@@ -54,4 +54,9 @@ public class ClientController {
     public List<ClientGetDto> getAllClients() {
         return clientService.getAllClients();
     }
+
+    @GetMapping("/all/not/{creditId}")
+    public List<ClientGetDto> getAllClientsWhereCreditsNotContains(@PathVariable UUID creditId) {
+        return clientService.getAllClientsWhereCreditsNotContains(creditId);
+    }
 }

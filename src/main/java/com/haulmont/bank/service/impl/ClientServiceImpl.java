@@ -79,4 +79,11 @@ public class ClientServiceImpl implements IClientService {
     public List<ClientGetDto> getAllClients() {
         return clientMapper.toGetDto(clientRepository.findAll());
     }
+
+    @Override
+    public List<ClientGetDto> getAllClientsWhereCreditsNotContains(UUID creditId) {
+        final Credit credit = creditRepository.findById(creditId).orElseThrow(NullPointerException::new);
+
+        return clientMapper.toGetDto(clientRepository.findByCreditsNotContains(credit));
+    }
 }

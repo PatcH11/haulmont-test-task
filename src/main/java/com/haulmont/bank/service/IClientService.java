@@ -18,4 +18,6 @@ public interface IClientService {
     void deleteClient(UUID id);
 
     List<ClientGetDto> getAllClients();
+
+    List<ClientGetDto> getAllClientsWhereCreditsNotContains(UUID creditId);
 }
