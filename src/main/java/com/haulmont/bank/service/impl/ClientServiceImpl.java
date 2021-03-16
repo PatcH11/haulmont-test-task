@@ -5,7 +5,9 @@ import com.haulmont.bank.data.dto.get.ClientGetDto;
 import com.haulmont.bank.data.dto.update.ClientUpdateDto;
 import com.haulmont.bank.data.mapstruct.ClientMapper;
 import com.haulmont.bank.data.model.Client;
+import com.haulmont.bank.data.model.Credit;
 import com.haulmont.bank.data.repository.ClientRepository;
+import com.haulmont.bank.data.repository.CreditRepository;
 import com.haulmont.bank.service.IClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,12 +20,15 @@ import java.util.UUID;
 public class ClientServiceImpl implements IClientService {
 
     private final ClientRepository clientRepository;
+    private final CreditRepository creditRepository;
     private final ClientMapper clientMapper;
 
     @Autowired
     public ClientServiceImpl(ClientRepository clientRepository,
+                             CreditRepository creditRepository,
                              ClientMapper clientMapper) {
         this.clientRepository = clientRepository;
+        this.creditRepository = creditRepository;
         this.clientMapper = clientMapper;
     }
 
@@ -62,6 +67,11 @@ public class ClientServiceImpl implements IClientService {
     @Override
     @Transactional
     public void deleteClient(UUID id) {
+        final Client client = clientRepository.findById(id).orElseThrow(NullPointerException::new);
+        final List<Credit> credits = creditRepository.findCreditByClientsIs(client);
+        credits.forEach(credit -> client.getCredits().remove(credit));
+        clientRepository.saveAndFlush(client);
+
         clientRepository.deleteById(id);
     }
 

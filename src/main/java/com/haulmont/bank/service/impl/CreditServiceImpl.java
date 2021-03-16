@@ -6,8 +6,11 @@ import com.haulmont.bank.data.dto.update.CreditUpdateDto;
 import com.haulmont.bank.data.mapstruct.CreditMapper;
 import com.haulmont.bank.data.model.Client;
 import com.haulmont.bank.data.model.Credit;
+import com.haulmont.bank.data.model.CreditOffer;
 import com.haulmont.bank.data.repository.ClientRepository;
+import com.haulmont.bank.data.repository.CreditOfferRepository;
 import com.haulmont.bank.data.repository.CreditRepository;
+import com.haulmont.bank.service.ICreditOfferService;
 import com.haulmont.bank.service.ICreditService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,15 +24,21 @@ public class CreditServiceImpl implements ICreditService {
 
     private final CreditRepository creditRepository;
     private final ClientRepository clientRepository;
+    private final CreditOfferRepository creditOfferRepository;
     private final CreditMapper creditMapper;
+    private final ICreditOfferService creditOfferService;
 
     @Autowired
     public CreditServiceImpl(CreditRepository creditRepository,
                              ClientRepository clientRepository,
-                             CreditMapper creditMapper) {
+                             CreditOfferRepository creditOfferRepository,
+                             CreditMapper creditMapper,
+                             ICreditOfferService creditOfferService) {
         this.creditRepository = creditRepository;
         this.clientRepository = clientRepository;
+        this.creditOfferRepository = creditOfferRepository;
         this.creditMapper = creditMapper;
+        this.creditOfferService = creditOfferService;
     }
 
     @Override
@@ -62,6 +71,10 @@ public class CreditServiceImpl implements ICreditService {
     @Override
     @Transactional
     public void deleteCredit(UUID id) {
+        final Credit credit = creditRepository.findById(id).orElseThrow(NullPointerException::new);
+        final List<CreditOffer> creditOffers = creditOfferRepository.findCreditOffersByCreditIs(credit);
+        creditOffers.forEach(creditOffer -> creditOfferService.deleteCreditOffer(creditOffer.getId()));
+
         creditRepository.deleteById(id);
     }
 
